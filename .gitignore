@@ -7,3 +7,6 @@ bin
 # IntelliJ IDEA
 .idea
 out
+
+# Maven
+target
