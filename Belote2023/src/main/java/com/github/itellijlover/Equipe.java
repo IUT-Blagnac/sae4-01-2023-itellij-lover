@@ -1,3 +1,4 @@
+package com.github.itellijlover;
 
 public 	class Equipe{
 	Equipe( int _id, int _num, String _eq1, String _eq2){
