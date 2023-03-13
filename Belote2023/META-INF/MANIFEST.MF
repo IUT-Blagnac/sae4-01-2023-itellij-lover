@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: Belote
+Class-Path: hsqldb-2.2.9.jar
+
