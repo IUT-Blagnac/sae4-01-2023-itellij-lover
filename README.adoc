@@ -47,7 +47,7 @@ TIP: Pensez à mettre à jour les infos dans ce fichier pour que les badges poin
 
 == _Refactoring_ d'un code existant
 
-image::belote2019.png[]
+image::img/belote2019.png[]
 
 WARNING: Ce dépôt présente le projet à développer dans le cadre de la SAÉ 4.A.01 du BUT1 Informatique de l'IUT de Blagnac.
 
@@ -147,7 +147,7 @@ TIP: En cas de besoin, n'hésitez pas à me contacter (jean-michel.bruel@univ-tl
 **********************************************************************
 Document généré par mailto:{email}[{author}] via {asciidoctorlink} (version `{asciidoctor-version}`).
 Pour l'instant ce document est libre d'utilisation et géré par la 'Licence Creative Commons'.
-image:88x31.png["Licence Creative
+image:img/88x31.png["Licence Creative
 Commons",style="border-width:0",link="http://creativecommons.org/licenses/by-sa/3.0/"]
 http://creativecommons.org/licenses/by-sa/3.0/[licence Creative Commons Paternité - Partage à l&#39;Identique 3.0 non transposé].
 **********************************************************************
