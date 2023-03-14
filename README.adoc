@@ -58,9 +58,8 @@ Vous trouverez le dépôt "template" qui a servi de base ici : https://github.co
 
 Projet est réalisé par::
 
-- https://github.com/janeDoe[Jane Doe]
-- https://github.com/johnSmith[John Smith]
-...
+- https://github.com/PattateDouce[Rémy Guibert]
+- https://github.com/Chaounne[Cédric Alexandre-Pascal]
 
 
 == Contexte général
