@@ -147,7 +147,7 @@ public class Tournoi {
 	public void genererMatchs() {
 		int nbt = 1;
 
-		System.out.println("Nombre d'�quipes : " + getNbEquipes());
+		System.out.println("Nombre d'équipes : " + getNbEquipes());
 		System.out.println("Nombre de tours  : " + nbt);
 		String req = "INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n";
 		Vector<Vector<Match>> ms;
