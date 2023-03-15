@@ -2,10 +2,10 @@ package com.github.itellijlover;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.Connection;  
-import java.sql.DriverManager;  
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;  
+import java.sql.Statement;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -13,67 +13,64 @@ import javax.swing.JOptionPane;
 
 public class Belote {
 
+	private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
+	private static final String DB_URL = "jdbc:hsqldb:file:%s\\belote;shutdown=true";
+
 	public static void main(String[] args) {
+		Connection connection = null;
+		Statement statement = null;
 
-        Connection connection;
-        Statement statement = null;  		
-
-		// Connection à la base de données
-		// et création des champs
-  
 		try {
-			Class.forName("org.hsqldb.jdbcDriver").newInstance();
+			// Charger le pilote JDBC
+			Class.forName(JDBC_DRIVER).newInstance();
 
+			// Créer le répertoire pour stocker les fichiers de la base de données s'il n'existe pas encore
 			String folder = System.getenv("APPDATA") + "\\jBelote";
-			System.out.println("Dossier de stockage:" + folder);
+			System.out.println("Dossier de stockage : " + folder);
 			if (!new File(folder).isDirectory()) {
 				new File(folder).mkdir();
 			}
-			connection = DriverManager
-					.getConnection("jdbc:hsqldb:file:" + folder + "\\belote","sa","");
+
+			// Se connecter à la base de données
+			String dbUrl = String.format(DB_URL, folder);
+			connection = DriverManager.getConnection(dbUrl, "sa", "");
 			statement = connection.createStatement();
 
+			// Importer le schéma SQL à partir d'un fichier
 			importSQL(connection, new File("create.sql"));
 
-		} catch(SQLException e) {
-			JOptionPane.showMessageDialog(null, "Impossible de se connecter à la base de donnée. Vérifiez qu'une autre instance du logiciel n'est pas déjà ouverte.");
+			// Interface graphique
+			Fenetre f = new Fenetre(statement);
+			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Impossible de se connecter à la base de données. Vérifiez qu'une autre instance du logiciel n'est pas déjà ouverte.");
 			System.out.println(e.getMessage());
 			System.exit(0);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Erreur lors de l'initialisation du logiciel. Vérifiez votre installation Java et vos droits d'accès sur le dossier AppData.");
 			System.out.println(e.getMessage());
 			System.exit(0);
 		}
-
-		// Interface graphique
-		Fenetre f = new Fenetre(statement);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		//statement.execute("SHUTDOWN;");
-		//statement.close();
-        //connection.close();
 	}
 
-	public static void importSQL(Connection conn, File in) throws SQLException, FileNotFoundException {
-		Scanner s = new Scanner(in);
-		s.useDelimiter("(;(\r)?\n)|(--\n)");
-		Statement st = null;
-		try {
-			st = conn.createStatement();
-			while (s.hasNext()) {
-				String line = s.next();
-				if (line.startsWith("/*!") && line.endsWith("*/")) {
-					int i = line.indexOf(' ');
-					line = line.substring(i + 1, line.length() - " */".length());
-				}
+	public static void importSQL(Connection conn, File in) {
+		try (Scanner s = new Scanner(in)) {
+			s.useDelimiter("(;(\r)?\n)|(--\n)");
+			try (Statement st = conn.createStatement()) {
+				while (s.hasNext()) {
+					String line = s.next();
+					if (line.startsWith("/*!") && line.endsWith("*/")) {
+						int i = line.indexOf(' ');
+						line = line.substring(i + 1, line.length() - " */".length());
+					}
 
-				if (line.trim().length() > 0) {
-					//System.out.println("Req:" + line);
-					st.execute(line);
+					if (line.trim().length() > 0) {
+						st.execute(line);
+					}
 				}
 			}
-		} finally {
-			if (st != null) st.close();
+		} catch (SQLException | FileNotFoundException e) {
+			System.out.println("Erreur lors de l'import du schéma SQL : " + e.getMessage());
 		}
 	}
 }
