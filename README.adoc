@@ -35,7 +35,7 @@ ifdef::env-github[]
 endif::[]
 
 // /!\ A MODIFIER !!!
-:baseURL: https://github.com/IUT-Blagnac/sae4-01-template
+:baseURL: https://github.com/IUT-Blagnac/sae4-01-itellij-lover
 
 // Tags
 image:{baseURL}/actions/workflows/build.yml/badge.svg[Build]
