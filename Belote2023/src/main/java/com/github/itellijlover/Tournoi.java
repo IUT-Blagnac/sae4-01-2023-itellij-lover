@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 
@@ -66,8 +67,8 @@ public class Tournoi {
 	}
 
 	public void majEquipes() {
-		dataeq = new Vector<Equipe>();
-		ideqs = new Vector<Integer>();
+		dataeq = new Vector<>();
+		ideqs = new Vector<>();
 		try {
 			ResultSet rs = st.executeQuery("SELECT * FROM equipes WHERE id_tournoi = " + id_tournoi + " ORDER BY num_equipe;");
 			while (rs.next()) {
@@ -82,10 +83,12 @@ public class Tournoi {
 	}
 
 	public void majMatch(){
-		datam = new Vector<MatchM>();
+		datam = new Vector<>();
 		try {
 			ResultSet rs= st.executeQuery("SELECT * FROM matchs WHERE id_tournoi="+ id_tournoi + ";");
-			while(rs.next()) datam.add(new MatchM(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"),rs.getString("termine") == "oui"));
+			while (rs.next()) {
+				datam.add(new MatchM(rs.getInt("id_match"), rs.getInt("equipe1"), rs.getInt("equipe2"), rs.getInt("score1"), rs.getInt("score2"), rs.getInt("num_tour"), Objects.equals(rs.getString("termine"), "oui")));
+			}
 			//public com.github.itellijlover.MatchM(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
 			rs.close();
 		} catch (SQLException e) {
@@ -148,7 +151,7 @@ public class Tournoi {
 		ms = Tournoi.getMatchsToDo(getNbEquipes(), nbt);
 		int z = 1;
 		char v = ' ';
-		for (Vector<Match> t :ms) {
+		for (Vector<Match> t : ms) {
 			for (Match m:t) {
 				req += v + "(NULL," + id_tournoi + ", " + z + ", "+  m.eq1 + ", " +  m.eq2 + ", 'non')";
 				v = ',';
@@ -211,7 +214,7 @@ public class Tournoi {
 				rs = st.executeQuery("SELECT equipe, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.id_tournoi + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.id_tournoi + ") GROUP BY equipe  ORDER BY matchs_gagnes DESC;");
 
 
-				ArrayList<Integer> ordreeq= new ArrayList<Integer>();
+				ArrayList<Integer> ordreeq= new ArrayList<>();
 				while (rs.next()) {
 					ordreeq.add(rs.getInt("equipe"));
 					System.out.println(rs.getInt(1) +" _ " + rs.getString(2));
@@ -301,14 +304,14 @@ public class Tournoi {
 	}
 
 	public static int creerTournoi(Statement s2) {
-		String s = (String)JOptionPane.showInputDialog(
+		String s = JOptionPane.showInputDialog(
                 null,
                 "Entrez le nom du tournoi",
                 "Nom du tournoi",
                 JOptionPane.PLAIN_MESSAGE);
 
 
-		if (s == null || s == "") {
+		if (s == null || s.equals("")) {
 			return 1;
 		} else {
 			try {
@@ -321,7 +324,7 @@ public class Tournoi {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if (s == "") {
+			if (s.equals("")) {
 				JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Ne pas mettre de caract�res sp�ciaux ou accents dans le nom");
 				return 2;
 			} else {
@@ -371,9 +374,6 @@ public class Tournoi {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -405,12 +405,12 @@ public class Tournoi {
 		}		
 	}
 
-    public static String mysql_real_escape_string( String str) throws Exception {
+    public static String mysql_real_escape_string( String str) {
           if (str == null) {
               return null;
           }
 
-          if (str.replaceAll("[a-zA-Z0-9_!@#$%^&*()-=+~.;:,\\Q[\\E\\Q]\\E<>{}\\/? ]","").length() < 1) {
+          if (str.replaceAll("[a-zA-Z\\d_!@#$%^&*()-=+~.;:,\\Q[\\E\\Q]\\E<>{}/? ]","").length() < 1) {
               return str;
           }
 
@@ -447,9 +447,9 @@ public class Tournoi {
 		}
 
 		boolean quitter;
-		int     i, increment  = 1, temp;
+		int i, increment = 1, temp;
 
-		Vector<Vector<Match>> retour = new Vector<Vector<Match>>();
+		Vector<Vector<Match>> retour = new Vector<>();
 
 		Vector<Match> vm;
 
@@ -463,29 +463,28 @@ public class Tournoi {
 			}
 			i       = 0;
 			quitter = false;
-			vm = new Vector<Match>();
+			vm = new Vector<>();
 			while (!quitter) {
-				if (tabJoueurs[i] == -1 || tabJoueurs[nbJoueurs - 1  - i] == -1){
-					// Nombre impair de joueur, le joueur n'a pas d'adversaire
-				} else {
+				if (tabJoueurs[i] != -1 && tabJoueurs[nbJoueurs - 1  - i] != -1) {
 					vm.add(new Match(tabJoueurs[i], tabJoueurs[nbJoueurs - 1  - i]));
 				}
+				// Sinon : Nombre impair de joueur, le joueur n'a pas d'adversaire
 
-		        i+= increment;
+		        i += increment;
 				if (i >= nbJoueurs / 2) {
-					if (increment == 1) {
-						quitter = true;
-						break;
-					} else {
+					//if (increment == 1) {
+					quitter = true;
+						//break;
+					/*} else {
 						increment = -2;
 						if (i > nbJoueurs / 2) {
 							i = ((i > nbJoueurs / 2) ? i - 3 : --i) ;
 						}
 						if ((i < 1) && (increment == -2)) {
 							quitter = true;
-							break;
+							//break;
 						}
-					}
+					}*/
 				}
 			}
 			retour.add(vm);
