@@ -1,5 +1,8 @@
 package com.github.itellijlover;
 
+import com.github.itellijlover.model.Equipe;
+import com.github.itellijlover.model.MatchM;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -89,7 +92,7 @@ public class Tournoi {
 			while (rs.next()) {
 				datam.add(new MatchM(rs.getInt("id_match"), rs.getInt("equipe1"), rs.getInt("equipe2"), rs.getInt("score1"), rs.getInt("score2"), rs.getInt("num_tour"), Objects.equals(rs.getString("termine"), "oui")));
 			}
-			//public com.github.itellijlover.MatchM(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
+			//public com.github.itellijlover.model.MatchM(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
 			rs.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

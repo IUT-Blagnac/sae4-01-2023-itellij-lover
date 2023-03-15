@@ -1,5 +1,8 @@
 package com.github.itellijlover;
 
+import com.github.itellijlover.model.Equipe;
+import com.github.itellijlover.model.MatchM;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;

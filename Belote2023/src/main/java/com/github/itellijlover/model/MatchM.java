@@ -1,4 +1,4 @@
-package com.github.itellijlover;
+package com.github.itellijlover.model;
 
 public class MatchM {
 
