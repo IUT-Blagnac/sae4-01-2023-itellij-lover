@@ -85,14 +85,14 @@ public class Tournoi {
 		}
 	}
 
-	public void majMatch(){
+	public void majMatch() {
 		datam = new Vector<>();
 		try {
 			ResultSet rs= st.executeQuery("SELECT * FROM matchs WHERE id_tournoi="+ id_tournoi + ";");
 			while (rs.next()) {
 				datam.add(new MatchM(rs.getInt("id_match"), rs.getInt("equipe1"), rs.getInt("equipe2"), rs.getInt("score1"), rs.getInt("score2"), rs.getInt("num_tour"), Objects.equals(rs.getString("termine"), "oui")));
 			}
-			//public com.github.itellijlover.model.MatchM(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
+			//public MatchM(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
 			rs.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -408,7 +408,7 @@ public class Tournoi {
 		}		
 	}
 
-    public static String mysql_real_escape_string( String str) {
+    public static String mysql_real_escape_string(String str) {
           if (str == null) {
               return null;
           }

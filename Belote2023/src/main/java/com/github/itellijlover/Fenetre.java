@@ -70,12 +70,12 @@ public class Fenetre extends JFrame {
 
     private JLabel statut_slect = null;
 
-    private final String statut_deft = "Gestion de tournois de com.github.itellijlover.Belote v1.0 - ";
+    private final String statut_deft = "Gestion de tournois de Belote v1.0 - ";
 
 	public Fenetre(Statement st) {
 
 		s = st;
-		this.setTitle("Gestion de tournoi de com.github.itellijlover.Belote");
+		this.setTitle("Gestion de tournoi de Belote");
 		setSize(800,400);
 		this.setVisible(true);
 		this.setLocationRelativeTo(this.getParent());
@@ -281,8 +281,8 @@ public class Fenetre extends JFrame {
 				Tournoi.creerTournoi(Fenetre.this.s);
 				Fenetre.this.tracer_select_tournoi();
 				//String nt = JOptionPane.showInputDialog("Nom du tournoi ?");
-				//ResultSet rs = com.github.itellijlover.Fenetre.this.s.executeQuery("SELECT)
-				//com.github.itellijlover.Fenetre.this.s.execute("INSERT INTO TOURNOI (id_tournoi)
+				//ResultSet rs = Fenetre.this.s.executeQuery("SELECT)
+				//Fenetre.this.s.execute("INSERT INTO TOURNOI (id_tournoi)
 			});
 
 	        deleteTournoi.addActionListener( e -> {
@@ -292,9 +292,9 @@ public class Fenetre extends JFrame {
 	        selectTournoi.addActionListener( arg0 -> {
 				String nt = Fenetre.this.list.getSelectedValue();
 				Fenetre.this.t = new Tournoi(nt, Fenetre.this.s);
-				//com.github.itellijlover.Fenetre.this.detracer_select_tournoi();
+				//Fenetre.this.detracer_select_tournoi();
 				Fenetre.this.tracer_details_tournoi();
-				Fenetre.this.setStatutSelect("com.github.itellijlover.Tournoi \" " + nt + " \"");
+				Fenetre.this.setStatutSelect("Tournoi \" " + nt + " \"");
 			});
 	        fen.show(c, TOURNOIS);
 		}
@@ -551,7 +551,7 @@ public class Fenetre extends JFrame {
 			JPanel bt    = new JPanel();
 			tours_ajouter   = new JButton("Ajouter un tour");
 			tours_supprimer = new JButton("Supprimer le dernier tour");
-			//tours_rentrer   = new JButton("Rentrer les scores du tour s�lectionn�");
+			//tours_rentrer   = new JButton("Rentrer les scores du tour sélectionné");
 			bt.add(tours_ajouter);
 			bt.add(tours_supprimer);
 			//bt.add(tours_rentrer);
@@ -572,9 +572,7 @@ public class Fenetre extends JFrame {
 			tours_supprimer.setEnabled(false);
 			tours_ajouter.setEnabled(true);
 		} else {
-
-			tours_supprimer.setEnabled( t.getNbTours() > 1);
-
+			tours_supprimer.setEnabled(t.getNbTours() > 1);
 			tours_ajouter.setEnabled(peutajouter && t.getNbTours() < t.getNbEquipes() - 1);
 		}
 
