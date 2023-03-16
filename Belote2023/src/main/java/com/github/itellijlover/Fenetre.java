@@ -35,7 +35,7 @@ public class Fenetre extends JFrame {
 	public JPanel c;
 	Statement s;
 
-	private JTextArea gtt;
+	private JTextArea gt;
 	private JPanel ListeTournois;
 	private Vector<String> noms_tournois;
 	private JList<String> list;
