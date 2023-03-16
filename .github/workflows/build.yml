@@ -20,4 +20,4 @@ jobs:
         distribution: 'temurin'
 
     - name: Build project with Maven
-      run: mvn package --file pom.xml
+      run: mvn package --file Belote2023/pom.xml
