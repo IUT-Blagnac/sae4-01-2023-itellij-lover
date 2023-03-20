@@ -155,6 +155,8 @@ http://creativecommons.org/licenses/by-sa/3.0/[licence Creative Commons Paternit
 
 === Étape 1 
 
+https://github.com/IUT-Blagnac/sae4-01-2023-itellij-lover/releases/tag/v1[Lien vers la release]
+
 Remarques : 
 
 - Aucun package 
