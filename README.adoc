@@ -156,6 +156,7 @@ http://creativecommons.org/licenses/by-sa/3.0/[licence Creative Commons Paternit
 === Étape 1 
 
 Remarques : 
+
 - Aucun package 
 - Pas de séparation entre la vue et le controller
 - Pas de javadoc ni de commentaire
