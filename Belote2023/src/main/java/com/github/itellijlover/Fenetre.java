@@ -35,29 +35,23 @@ public class Fenetre extends JFrame {
 	public JPanel c;
 	Statement s;
 
-	private JTextArea gt;
-	private JPanel ListeTournois;
-	private Vector<String> noms_tournois;
 	private JList<String> list;
-	private JLabel label;
-	private JButton creerTournoi;
 	private JButton selectTournoi;
 	private JButton deleteTournoi;
-	private JButton btournois;
-	private JButton bequipes;
-	private JButton btours;
-	private JButton bmatchs;
-	private JButton bresultats;
-	private JButton bparams;
+	private final JButton btournois;
+	private final JButton bequipes;
+	private final JButton btours;
+	private final JButton bmatchs;
+	private final JButton bresultats;
+	private final JButton bparams;
 
 	private boolean tournois_trace  = false;
-	private boolean details_trace   = false;
 	private boolean equipes_trace   = false;
 	private boolean tours_trace     = false;
 	private boolean match_trace     = false;
 	private boolean resultats_trace = false;
 
-	private CardLayout fen;
+	private final CardLayout fen;
 
 	final static String TOURNOIS = "Tournois";
     final static String DETAIL   = "Paramètres du tournoi";
@@ -68,9 +62,7 @@ public class Fenetre extends JFrame {
 
     public Tournoi t = null;
 
-    private JLabel statut_slect = null;
-
-    private final String statut_deft = "Gestion de tournois de Belote v1.0 - ";
+    private final JLabel statut_slect;
 
 	public Fenetre(Statement st) {
 
@@ -138,7 +130,7 @@ public class Fenetre extends JFrame {
 	}
 
 	public void setStatutSelect(String t) {
-		statut_slect.setText(statut_deft + "" + t);
+		statut_slect.setText("Gestion de tournois de Belote v1.0 - " + t);
 	}
 
 	public void majboutons() {
@@ -188,7 +180,7 @@ public class Fenetre extends JFrame {
 		majboutons();
 
 		int nbdeLignes = 0;
-		noms_tournois = new Vector<>();
+		Vector<String> noms_tournois = new Vector<>();
         this.setStatutSelect("sélection d'un tournoi");
 		ResultSet rs;
 		try {
@@ -199,12 +191,6 @@ public class Fenetre extends JFrame {
 				noms_tournois.add(rs.getString("nom_tournoi"));
 			}
 
-			/*if (nbdeLignes == 0) {
-				//System.out.println("Pas de résultats");
-				//t.add(new JLabel("Aucun tournoi n'a été créé"));
-			} else {
-				//System.out.println(nbdeLignes + " résultats");
-			}*/
 			rs.close();
 		} catch (SQLException e) {
 			System.out.println("Erreur lors de la requète :" + e.getMessage());
@@ -231,15 +217,15 @@ public class Fenetre extends JFrame {
 
 			t.setLayout(new BoxLayout(t, BoxLayout.Y_AXIS));
 			c.add(t,TOURNOIS);
-			gt = new JTextArea("Gestion des tournois\nXXXXX XXXXXXXX, juillet 2012");
+			JTextArea gt = new JTextArea("Gestion des tournois\nXXXXX XXXXXXXX, juillet 2012");
 			gt.setAlignmentX(Component.CENTER_ALIGNMENT);
 			gt.setEditable(false);
 			t.add(gt);
 
 			// Recherche de la liste des tournois
-			ListeTournois = new JPanel();
+			JPanel ListeTournois = new JPanel();
 
-			t.add(ListeTournois);		
+			t.add(ListeTournois);
 
 			list = new JList<>(noms_tournois);
 			list.setAlignmentX(Component.LEFT_ALIGNMENT); 
@@ -250,7 +236,7 @@ public class Fenetre extends JFrame {
 	        listScroller.setPreferredSize(new Dimension(250, 180));
 	        //listScroller.setAlignmentX(LEFT_ALIGNMENT);
 
-	        label = new JLabel("Liste des tournois");
+			JLabel label = new JLabel("Liste des tournois");
 	        label.setLabelFor(list);
 	        label.setAlignmentX(Component.LEFT_ALIGNMENT);
 	        t.add(label);
@@ -262,7 +248,7 @@ public class Fenetre extends JFrame {
 
 	        Box bh = Box.createHorizontalBox();
 	        t.add(bh);
-			creerTournoi = new JButton("Créer un nouveau tournoi");
+			JButton creerTournoi = new JButton("Créer un nouveau tournoi");
 			selectTournoi = new JButton("Sélectionner le tournoi");
 			deleteTournoi = new JButton("Supprimer le tournoi");
 			bh.add(creerTournoi);
@@ -303,7 +289,6 @@ public class Fenetre extends JFrame {
 	JLabel                     detailt_nom;
 	JLabel                     detailt_statut;
 	JLabel                     detailt_nbtours;
-	//JButton                    detailt_enregistrer;
 
 	public void tracer_details_tournoi() {
 		if (t == null) {
@@ -311,39 +296,28 @@ public class Fenetre extends JFrame {
 		}
 		majboutons();
 
-		if (details_trace) {
-			detailt_nom.setText(t.getNom());
-			detailt_statut.setText(t.getNStatut());
-			detailt_nbtours.setText(Integer.toString(t.getNbTours()));
-		} else {
-			JPanel p = new JPanel();
-			p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-			p.add(new JLabel("Détail du tournoi"));
-			c.add(p, DETAIL);
+		JPanel p = new JPanel();
+		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+		p.add(new JLabel("Détail du tournoi"));
+		c.add(p, DETAIL);
 
-			JPanel tab = new JPanel( new GridLayout(4,2));
-			detailt_nom = new JLabel(t.getNom());
-			tab.add(new JLabel("Nom du tournoi"));
-			tab.add(detailt_nom);
+		JPanel tab = new JPanel( new GridLayout(4,2));
+		detailt_nom = new JLabel(t.getNom());
+		tab.add(new JLabel("Nom du tournoi"));
+		tab.add(detailt_nom);
 
-			detailt_statut = new JLabel(t.getNStatut());
-			tab.add(new JLabel("Statut"));
-			tab.add(detailt_statut);
+		detailt_statut = new JLabel(t.getNStatut());
+		tab.add(new JLabel("Statut"));
+		tab.add(detailt_statut);
 
-			detailt_nbtours = new JLabel(Integer.toString(t.getNbTours()));
-			tab.add(new JLabel("Nombre de tours:"));
-			tab.add(detailt_nbtours);
-			//detailt_nbtours.setPreferredSize(new Dimension(40,40));
+		detailt_nbtours = new JLabel(Integer.toString(t.getNbTours()));
+		tab.add(new JLabel("Nombre de tours:"));
+		tab.add(detailt_nbtours);
 
-			p.add(tab);
+		p.add(tab);
 
-			//detailt_enregistrer = new JButton("Enregistrer");
-			//p.add(Box.createHorizontalGlue());
-			//p.add(detailt_enregistrer);
-			p.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
-			//p.add(new JLabel("  e"));
-			//tab.setPreferredSize(new Dimension(-1, 200));
-		}
+		p.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
+
 		fen.show(c, DETAIL);
 	}
 
@@ -351,7 +325,6 @@ public class Fenetre extends JFrame {
     private JButton            eq_ajouter;
     private JButton            eq_supprimer;
     private JButton            eq_valider;
-    private JScrollPane        eq_js;
     JTable                     eq_jt;
     JPanel                     eq_p;
     BoxLayout                  eq_layout;
@@ -426,9 +399,7 @@ public class Fenetre extends JFrame {
 
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 					Equipe e = t.getEquipe(rowIndex);
-					if (columnIndex == 0) {
-						
-					} else if (columnIndex == 1) {
+					if (columnIndex == 1) {
 						e.eq1 = (String)aValue;
 					} else if (columnIndex == 2) {
 						e.eq2 = (String)aValue;
@@ -438,7 +409,7 @@ public class Fenetre extends JFrame {
 				}
 			};
 			eq_jt = new JTable(eq_modele);
-			eq_js = new JScrollPane(eq_jt);
+			JScrollPane eq_js = new JScrollPane(eq_jt);
 			eq_p.add(eq_js);
 			//jt.setPreferredSize(getMaximumSize());
 
@@ -502,7 +473,6 @@ public class Fenetre extends JFrame {
 
 	JButton                    tours_ajouter;
 	JButton                    tours_supprimer;
-	JButton                    tours_rentrer;
 
 	public void tracer_tours_tournoi(){
 		if (t == null) {
@@ -559,7 +529,6 @@ public class Fenetre extends JFrame {
 			tours_p.add(new JLabel("Pour pouvoir ajouter un tour, terminez tous les matchs du précédent."));
 			tours_p.add(new JLabel("Le nombre maximum de tours est \"le nombre total d'équipes - 1\""));
 			tours_ajouter.addActionListener( arg0 -> {
-				// TODO Auto-generated method stub
 				t.ajouterTour();
 				Fenetre.this.tracer_tours_tournoi();
 			});
@@ -581,7 +550,7 @@ public class Fenetre extends JFrame {
 	}
 
 	private AbstractTableModel match_modele;
-    private JScrollPane        match_js;
+
     JTable                     match_jt;
     JPanel                     match_p;
     BoxLayout                  match_layout;
@@ -651,14 +620,12 @@ public class Fenetre extends JFrame {
 				}
 				@Override
 				public int getRowCount() {
-					// TODO Auto-generated method stub
 					if (t == null) return 0;
 					return t.getNbMatchs();
 				}
 
 				@Override
 				public int getColumnCount() {
-					// TODO Auto-generated method stub
 					return 5;
 				}
 				public boolean isCellEditable(int x, int y) {
@@ -666,9 +633,10 @@ public class Fenetre extends JFrame {
 				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 					MatchM m = t.getMatch(rowIndex);
+					int sco;
 					if (columnIndex == 3) {
 						try {
-							int sco = Integer.parseInt((String)aValue);
+							sco = Integer.parseInt((String)aValue);
 							m.score1 = sco;
 							t.majMatch(rowIndex);
 
@@ -678,7 +646,7 @@ public class Fenetre extends JFrame {
 
 					} else if (columnIndex == 4) {
 						try {
-							int sco = Integer.parseInt((String)aValue);
+							sco = Integer.parseInt((String)aValue);
 							m.score2 = sco;
 							t.majMatch(rowIndex);
 
@@ -694,7 +662,7 @@ public class Fenetre extends JFrame {
 			};
 			match_jt = new JTable(match_modele);
 
-			match_js = new JScrollPane(match_jt);
+			JScrollPane match_js = new JScrollPane(match_jt);
 			match_p.add(match_js);
 			//jt.setPreferredSize(getMaximumSize());
 
@@ -794,7 +762,6 @@ public class Fenetre extends JFrame {
 			total    = rs.getInt(1);
 			termines = rs.getInt(2);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return ;
 		}
