@@ -16,6 +16,11 @@ public class MatchM {
 		termine = _termine;
 	}
 
+	public MatchM(int _e1, int _e2) {
+		eq1 = _e1;
+		eq2 = _e2;
+	}
+
 	public String toString() {
 		if (eq1 < eq2) {
 			return "  " + eq1 + " contre " + eq2;
