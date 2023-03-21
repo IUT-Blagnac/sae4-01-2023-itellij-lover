@@ -13,22 +13,21 @@ import javax.swing.JOptionPane;
 
 public class Belote {
 
-	private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
 	private static final String DB_URL = "jdbc:hsqldb:file:%s\\belote;shutdown=true";
 
 	public static void main(String[] args) {
-		Connection connection = null;
-		Statement statement = null;
+		Connection connection;
+		Statement statement;
 
 		try {
-			// Charger le pilote JDBC
-			Class.forName(JDBC_DRIVER).newInstance();
-
 			// Créer le répertoire pour stocker les fichiers de la base de données s'il n'existe pas encore
 			String folder = System.getenv("APPDATA") + "\\jBelote";
 			System.out.println("Dossier de stockage : " + folder);
 			if (!new File(folder).isDirectory()) {
-				new File(folder).mkdir();
+				if (!new File(folder).mkdir()) {
+					System.out.println("Imppossible de créer le dossier de stockage, fonctionnement impossible, fermeture imminente.");
+					System.exit(1);
+				}
 			}
 
 			// Se connecter à la base de données
