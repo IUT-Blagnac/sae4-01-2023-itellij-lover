@@ -180,8 +180,15 @@ image::doc/Diagramme sequence.png[]
 
 == Refactoring
 
+=== Suppression classe interne
+
+==== Tournoi.java
+
+Nous avons enlevé la classe interne Match car nous trouvions ça redondant d'avoir Match et MatchM, nous avons donc fait le choix de garder uniquement MatchM et d'y créer un constructeur qui ressemble a celui de Match.
+
 === Corrections des warnings du projet de base
 
 ==== Belotte.java
 
 Il n'y a pas eu grand chose à faire, juste de ne pas initialiser deux variables à `null`, de vérifier que le dossier de stockage à bien était créé, et de ne pas utiliser une mthode déprécier.
+
