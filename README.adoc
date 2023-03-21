@@ -195,3 +195,8 @@ Il n'y a pas eu grand chose à faire, juste de ne pas initialiser deux variables
 ==== Fenetre.java
 
 De nombreux champs pouvait être remplacés par des variables locales, et certains pouvait être `final`. On a aussi supprimé du code commenté ainsi qu'une variable qui vallait tout le temps `false`, qui était donc inutile, ainsi qu'une condition sans corps.
+
+==== Tournoi.java
+
+De nombreux String pouvait être remplacés par des StringBuilder, car ils étaient concatainé dans des boucles. On a aussi supprimé du code commenté. Et quelques méthode revoyer une valeur jamais utilisé donc nous avons remplacer le type de sortie par `void`
+
