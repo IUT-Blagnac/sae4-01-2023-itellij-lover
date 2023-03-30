@@ -9,7 +9,6 @@ public class MatchM {
 	private int score2;
 	private int num_tour;
 
-	private boolean termine;
 
 	public int getIdmatch() {
 		return idmatch;
@@ -43,14 +42,13 @@ public class MatchM {
 		return num_tour;
 	}
 
-	public MatchM(int _idmatch, int _e1, int _e2, int _score1, int _score2, int _num_tour, boolean _termine) {
+	public MatchM(int _idmatch, int _e1, int _e2, int _score1, int _score2, int _num_tour) {
 		idmatch = _idmatch;
 		eq1 = _e1;
 		eq2 = _e2;
 		score1 = _score1;
 		score2 = _score2;
 		num_tour = _num_tour;
-		termine = _termine;
 	}
 
 	public MatchM(int _e1, int _e2) {
