@@ -206,9 +206,11 @@ De nombreux String pouvait être remplacés par des StringBuilder, car ils étai
 
 ==== Equipe
 
-Pour la classe équipe nous avons mis tout les champs en privé et créer un getter oour chacun d'entre eux en plus d'un setter pour `eq1` et `eq2`.
+Pour la classe équipe nous avons mis tout les champs en privé et créer un getter pour chacun d'entre eux en plus d'un setter pour `eq1` et `eq2`.
 
 ==== MatchM
+
+Ici, nous avons passé tous les attributs en privés et nous avons créé des getters pour chaque attributs et des setters pour `score1` et `score2`.
 
 ==== Fenetre
 
@@ -216,3 +218,4 @@ Pleins de champs ont été transformés en variables locales car ils ne sont pas
 
 ==== Tournoi
 
+Dans cette classe nous avons utilisé les getters et setters créés, notamment pour MatchM. Nous avons aussi mit en privé les attributs pour plus de sécuritée et un getter pour `id_tournoi`.
