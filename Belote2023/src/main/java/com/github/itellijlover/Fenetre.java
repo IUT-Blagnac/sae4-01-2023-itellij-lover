@@ -357,13 +357,13 @@ public class Fenetre extends JFrame {
 					Object r = null;
 					switch(arg1) {
 					case 0:
-						r = t.getEquipe(arg0).num;
+						r = t.getEquipe(arg0).getNum();
 					break;
 					case 1:
-						r = t.getEquipe(arg0).eq1;
+						r = t.getEquipe(arg0).getEq1();
 					break;
 					case 2:
-						r = t.getEquipe(arg0).eq2;
+						r = t.getEquipe(arg0).getEq2();
 					break;
 					}
 					return r;
@@ -400,9 +400,9 @@ public class Fenetre extends JFrame {
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 					Equipe e = t.getEquipe(rowIndex);
 					if (columnIndex == 1) {
-						e.eq1 = (String)aValue;
+						e.setEq1((String)aValue);
 					} else if (columnIndex == 2) {
-						e.eq2 = (String)aValue;
+						e.setEq2((String)aValue);
 					}
 					t.majEquipe(rowIndex);
 					fireTableDataChanged();
@@ -429,7 +429,7 @@ public class Fenetre extends JFrame {
 
 			eq_supprimer.addActionListener(e -> {
 				if (Fenetre.this.eq_jt.getSelectedRow() != -1) {
-					t.supprimerEquipe(t.getEquipe(Fenetre.this.eq_jt.getSelectedRow()).id);
+					t.supprimerEquipe(t.getEquipe(Fenetre.this.eq_jt.getSelectedRow()).getId());
 				}
 				eq_valider.setEnabled(t.getNbEquipes() > 0 && t.getNbEquipes() % 2 == 0) ;
 				eq_modele.fireTableDataChanged();
