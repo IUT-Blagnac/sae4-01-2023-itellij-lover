@@ -229,17 +229,14 @@ public class Fenetre extends JFrame {
 			list = new JList<>(noms_tournois);
 			list.setAlignmentX(Component.LEFT_ALIGNMENT); 
 			list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-			//list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		    list.setVisibleRowCount(-1);
 		    JScrollPane listScroller = new JScrollPane(list);
 	        listScroller.setPreferredSize(new Dimension(250, 180));
-	        //listScroller.setAlignmentX(LEFT_ALIGNMENT);
 
 			JLabel label = new JLabel("Liste des tournois");
 	        label.setLabelFor(list);
 	        label.setAlignmentX(Component.LEFT_ALIGNMENT);
 	        t.add(label);
-	        //c.add(Box.createRigidArea(new Dimension(0,0)));
 	        t.add(listScroller);
 	        t.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
@@ -265,9 +262,6 @@ public class Fenetre extends JFrame {
 	        creerTournoi.addActionListener( e -> {
 				Tournoi.creerTournoi(Fenetre.this.s);
 				Fenetre.this.tracer_select_tournoi();
-				//String nt = JOptionPane.showInputDialog("Nom du tournoi ?");
-				//ResultSet rs = Fenetre.this.s.executeQuery("SELECT)
-				//Fenetre.this.s.execute("INSERT INTO TOURNOI (id_tournoi)
 			});
 
 	        deleteTournoi.addActionListener( e -> {
@@ -277,7 +271,6 @@ public class Fenetre extends JFrame {
 	        selectTournoi.addActionListener( arg0 -> {
 				String nt = Fenetre.this.list.getSelectedValue();
 				Fenetre.this.t = new Tournoi(nt, Fenetre.this.s);
-				//Fenetre.this.detracer_select_tournoi();
 				Fenetre.this.tracer_details_tournoi();
 				Fenetre.this.setStatutSelect("Tournoi \" " + nt + " \"");
 			});
@@ -508,11 +501,9 @@ public class Fenetre extends JFrame {
 			JPanel bt    = new JPanel();
 			tours_ajouter   = new JButton("Ajouter un tour");
 			tours_supprimer = new JButton("Supprimer le dernier tour");
-			//tours_rentrer   = new JButton("Rentrer les scores du tour sélectionné");
 			bt.add(tours_ajouter);
 			bt.add(tours_supprimer);
-			//bt.add(tours_rentrer);
-			tours_p.add(bt);	
+			tours_p.add(bt);
 			tours_p.add(new JLabel("Pour pouvoir ajouter un tour, terminez tous les matchs du précédent."));
 			tours_p.add(new JLabel("Le nombre maximum de tours est \"le nombre total d'équipes - 1\""));
 			tours_ajouter.addActionListener( arg0 -> {
@@ -533,7 +524,6 @@ public class Fenetre extends JFrame {
 		}
 
 		fen.show(c, TOURS);
-		//tours_ajouter.setEnabled(peutajouter);
 	}
 
 	private AbstractTableModel match_modele;
@@ -646,7 +636,6 @@ public class Fenetre extends JFrame {
 
 			JScrollPane match_js = new JScrollPane(match_jt);
 			match_p.add(match_js);
-			//jt.setPreferredSize(getMaximumSize());
 
 			System.out.println("truc2");
 

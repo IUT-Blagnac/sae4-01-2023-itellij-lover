@@ -9,7 +9,6 @@ public class MatchM {
 	private int score2;
 	private int num_tour;
 
-
 	public int getIdmatch() {
 		return idmatch;
 	}

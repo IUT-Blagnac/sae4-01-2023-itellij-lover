@@ -16,17 +16,15 @@ public class Tournoi {
 	private String statuttnom;
 	private String nt;
 
-	private int    statut;
-	private int    id_tournoi;
-	//int    nbtours;
+	private int statut;
+	private int id_tournoi;
 
-	private Vector<Equipe> dataeq = null;
-	private Vector<MatchM> datam  = null;
-	private Vector<Integer>ideqs  = null; 
+	private Vector<Equipe> dataeq;
+	private Vector<MatchM> datam;
+	private Vector<Integer>ideqs;
 
-	private Statement st;
+	private final Statement st;
 
-		
 	public Tournoi(String nt, Statement s) {
 		st = s;
 
@@ -68,10 +66,6 @@ public class Tournoi {
 		return id_tournoi;
 	}
 
-	public void setId_tournoi(int id_tournoi) {
-		this.id_tournoi = id_tournoi;
-	}
-
 	public void majEquipes() {
 		dataeq = new Vector<>();
 		ideqs = new Vector<>();
@@ -94,7 +88,6 @@ public class Tournoi {
 			while (rs.next()) {
 				datam.add(new MatchM(rs.getInt("id_match"), rs.getInt("equipe1"), rs.getInt("equipe2"), rs.getInt("score1"), rs.getInt("score2"), rs.getInt("num_tour")));
 			}
-			//public MatchM(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
 			rs.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -211,10 +204,7 @@ public class Tournoi {
 		} else {
 			try {
 				ResultSet rs;
-				//rs = st.executeQuery("SELECT equipe, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2 AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 AND m.id_tournoi = id_tournoi )) as matchs_gagnes FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.id_tournoi + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.id_tournoi + ") GROUP BY equipe ORDER BY matchs_gagnes DESC;");
-
 				rs = st.executeQuery("SELECT equipe, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.id_tournoi + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.id_tournoi + ") GROUP BY equipe  ORDER BY matchs_gagnes DESC;");
-
 
 				ArrayList<Integer> ordreeq= new ArrayList<>();
 				while (rs.next()) {
@@ -238,7 +228,7 @@ public class Tournoi {
 						rs = st.executeQuery("SELECT COUNT(*) FROM matchs m WHERE ( (m.equipe1 = " + ordreeq.get(0) + " AND m.equipe2 = " + ordreeq.get(i) + ") OR (m.equipe2 = " + ordreeq.get(0) + " AND m.equipe1 = " + ordreeq.get(i) + ")  )");  
 						rs.next();
 						if (rs.getInt(1) > 0) {
-							// Le match est d�j� jou�
+							// Le match est déjà joué
 							i++;
 							fini = false;
 
@@ -271,7 +261,6 @@ public class Tournoi {
 			System.out.println(e.getMessage());
 			return ;
 		}
-		//if(tour != nbtoursav) return ;
 
 		try {
 			st.executeUpdate("DELETE FROM matchs WHERE id_tournoi="+ id_tournoi+" AND num_tour=" + nbtoursav);
@@ -454,22 +443,9 @@ public class Tournoi {
 					vm.add(new MatchM(tabJoueurs[i], tabJoueurs[nbJoueurs - 1  - i]));
 				}
 				// Sinon : Nombre impair de joueur, le joueur n'a pas d'adversaire
-
 		        i += increment;
 				if (i >= nbJoueurs / 2) {
-					//if (increment == 1) {
 					quitter = true;
-						//break;
-					/*} else {
-						increment = -2;
-						if (i > nbJoueurs / 2) {
-							i = ((i > nbJoueurs / 2) ? i - 3 : --i) ;
-						}
-						if ((i < 1) && (increment == -2)) {
-							quitter = true;
-							//break;
-						}
-					}*/
 				}
 			}
 			retour.add(vm);
