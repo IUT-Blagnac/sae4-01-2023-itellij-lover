@@ -13,18 +13,19 @@ import javax.swing.JOptionPane;
 
 public class Tournoi {
 
-	String statuttnom;
-	String nt;
+	private String statuttnom;
+	private String nt;
 
-	int    statut;
-	int    id_tournoi;
+	private int    statut;
+	private int    id_tournoi;
 	//int    nbtours;
 
 	private Vector<Equipe> dataeq = null;
 	private Vector<MatchM> datam  = null;
 	private Vector<Integer>ideqs  = null; 
 
-	Statement st;
+	private Statement st;
+
 		
 	public Tournoi(String nt, Statement s) {
 		st = s;
@@ -61,7 +62,14 @@ public class Tournoi {
 		break;
 		}
 		this.nt = nt;
+	}
 
+	public int getId_tournoi() {
+		return id_tournoi;
+	}
+
+	public void setId_tournoi(int id_tournoi) {
+		this.id_tournoi = id_tournoi;
 	}
 
 	public void majEquipes() {
@@ -149,7 +157,7 @@ public class Tournoi {
 		assert ms != null;
 		for (Vector<MatchM> t : ms) {
 			for (MatchM m:t) {
-				req.append(v).append("(NULL,").append(id_tournoi).append(", ").append(z).append(", ").append(m.eq1).append(", ").append(m.eq2).append(", 'non')");
+				req.append(v).append("(NULL,").append(id_tournoi).append(", ").append(z).append(", ").append(m.getEq1()).append(", ").append(m.getEq2()).append(", 'non')");
 				v = ',';
 			}
 			req.append("\n");
@@ -190,7 +198,7 @@ public class Tournoi {
 			StringBuilder req = new StringBuilder("INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n");
 			char v = ' ';
 			for (MatchM m:ms) {
-				req.append(v).append("(NULL,").append(id_tournoi).append(", ").append(nbtoursav + 1).append(", ").append(m.eq1).append(", ").append(m.eq2).append(", 'non')");
+				req.append(v).append("(NULL,").append(id_tournoi).append(", ").append(nbtoursav + 1).append(", ").append(m.getEq1()).append(", ").append(m.getEq2()).append(", 'non')");
 				v = ',';
 			}
 			req.append("\n");
@@ -356,9 +364,9 @@ public class Tournoi {
 	}
 
 	public void majMatch(int index) {
-		String termine = (getMatch(index).score1 > 0 || getMatch(index).score2 > 0) ? "oui":"non";
+		String termine = (getMatch(index).getScore1() > 0 || getMatch(index).getScore2() > 0) ? "oui":"non";
 		System.out.println(termine);
-		String req = "UPDATE matchs SET equipe1='" + getMatch(index).eq1 + "', equipe2='" + getMatch(index).eq2 + "',  score1='" + getMatch(index).score1 + "',  score2='" +getMatch(index).score2 + "', termine='" + termine + "' WHERE id_match = " + getMatch(index).idmatch + ";";
+		String req = "UPDATE matchs SET equipe1='" + getMatch(index).getEq1() + "', equipe2='" + getMatch(index).getEq2() + "',  score1='" + getMatch(index).getScore1() + "',  score2='" +getMatch(index).getScore2() + "', termine='" + termine + "' WHERE id_match = " + getMatch(index).getIdmatch() + ";";
 		try {
 			st.executeUpdate(req);
 		} catch (SQLException e) {
