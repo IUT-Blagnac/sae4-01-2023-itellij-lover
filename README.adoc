@@ -200,3 +200,17 @@ De nombreux champs pouvait être remplacés par des variables locales, et certai
 
 De nombreux String pouvait être remplacés par des StringBuilder, car ils étaient concatainé dans des boucles. On a aussi supprimé du code commenté. Et quelques méthode revoyer une valeur jamais utilisé donc nous avons remplacer le type de sortie par `void`
 
+
+
+=== Getter/Setter
+
+==== Equipe
+
+Pour la classe équipe nous avons mis tout les champs en privé et créer un getter oour chacun d'entre eux en plus d'un setter pour `eq1` et `eq2`
+
+==== MatchM
+
+==== Fenetre
+
+==== Tournoi
+
