@@ -159,7 +159,7 @@ public class Fenetre extends JFrame {
 
 				int total, termines;
 				try {
-					ResultSet rs = s.executeQuery("Select count(*) as total, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.id_tournoi +" GROUP by id_tournoi ;");
+					ResultSet rs = s.executeQuery("Select count(*) as total, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.getId_tournoi() +" GROUP by id_tournoi ;");
 					rs.next();
 					total    = rs.getInt(1);
 					termines = rs.getInt(2);
@@ -483,7 +483,7 @@ public class Fenetre extends JFrame {
 		Vector<Object> v;
 		boolean peutajouter = true;
 		try {
-			ResultSet rs = s.executeQuery("Select num_tour,count(*) as tmatchs, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.num_tour=m.num_tour  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.id_tournoi + " GROUP BY m.num_tour,m.id_tournoi;");
+			ResultSet rs = s.executeQuery("Select num_tour,count(*) as tmatchs, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.num_tour=m.num_tour  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.getId_tournoi() + " GROUP BY m.num_tour,m.id_tournoi;");
 			while (rs.next()) {
 				v = new Vector<>();
 				v.add(rs.getInt("num_tour"));
@@ -585,19 +585,19 @@ public class Fenetre extends JFrame {
 					Object r=null;
 					switch(arg1){
 					case 0:
-						r= t.getMatch(arg0).num_tour;
+						r= t.getMatch(arg0).getNum_tour();
 					break;
 					case 1:
-						r= t.getMatch(arg0).eq1;
+						r= t.getMatch(arg0).getEq1();
 					break;
 					case 2:
-						r= t.getMatch(arg0).eq2;
+						r= t.getMatch(arg0).getEq2();
 					break;
 					case 3:
-						r= t.getMatch(arg0).score1;
+						r= t.getMatch(arg0).getScore1();
 					break;
 					case 4:
-						r= t.getMatch(arg0).score2;
+						r= t.getMatch(arg0).getScore2();
 					break;
 					}
 					return r;
@@ -629,7 +629,7 @@ public class Fenetre extends JFrame {
 					return 5;
 				}
 				public boolean isCellEditable(int x, int y) {
-					return y > 2 && t.getMatch(x).num_tour == t.getNbTours();
+					return y > 2 && t.getMatch(x).getNum_tour() == t.getNbTours();
 				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 					MatchM m = t.getMatch(rowIndex);
@@ -637,7 +637,7 @@ public class Fenetre extends JFrame {
 					if (columnIndex == 3) {
 						try {
 							sco = Integer.parseInt((String)aValue);
-							m.score1 = sco;
+							m.setScore1(sco);
 							t.majMatch(rowIndex);
 
 						} catch(Exception e) {
@@ -647,7 +647,7 @@ public class Fenetre extends JFrame {
 					} else if (columnIndex == 4) {
 						try {
 							sco = Integer.parseInt((String)aValue);
-							m.score2 = sco;
+							m.setScore2(sco);
 							t.majMatch(rowIndex);
 
 						} catch(Exception e) {
@@ -698,7 +698,7 @@ public class Fenetre extends JFrame {
 		Vector<Vector<Object>> to = new Vector<>();
 		Vector<Object> v;
 		try {
-			ResultSet rs = s.executeQuery("SELECT equipe,(SELECT nom_j1 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.t.id_tournoi + ") as joueur1,(SELECT nom_j2 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.t.id_tournoi + ") as joueur2, SUM(score) as score, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes, (SELECT COUNT(*) FROM matchs m WHERE m.equipe1 = equipe OR m.equipe2=equipe) as matchs_joues FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.t.id_tournoi + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.t.id_tournoi + ") GROUP BY equipe ORDER BY matchs_gagnes DESC;");
+			ResultSet rs = s.executeQuery("SELECT equipe,(SELECT nom_j1 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.t.getId_tournoi() + ") as joueur1,(SELECT nom_j2 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.t.getId_tournoi() + ") as joueur2, SUM(score) as score, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes, (SELECT COUNT(*) FROM matchs m WHERE m.equipe1 = equipe OR m.equipe2=equipe) as matchs_joues FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.t.getId_tournoi() + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.t.getId_tournoi() + ") GROUP BY equipe ORDER BY matchs_gagnes DESC;");
 			while(rs.next()){
 				v = new Vector<>();
 				v.add(rs.getInt("equipe"));
@@ -757,7 +757,7 @@ public class Fenetre extends JFrame {
 	private void majStatutM() {
 		int total, termines;
 		try {
-			ResultSet rs = s.executeQuery("Select count(*) as total, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.id_tournoi +" GROUP by id_tournoi ;");
+			ResultSet rs = s.executeQuery("Select count(*) as total, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.getId_tournoi() +" GROUP by id_tournoi ;");
 			rs.next();
 			total    = rs.getInt(1);
 			termines = rs.getInt(2);
