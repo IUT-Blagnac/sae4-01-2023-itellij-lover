@@ -354,7 +354,7 @@ public class Tournoi {
 
 	public void majEquipe(int index) {
 		try {
-			String req = "UPDATE equipes SET nom_j1 = '" + mysql_real_escape_string(getEquipe(index).eq1) + "', nom_j2 = '" + mysql_real_escape_string(getEquipe(index).eq2) + "' WHERE id_equipe = " + getEquipe(index).id + ";";
+			String req = "UPDATE equipes SET nom_j1 = '" + mysql_real_escape_string(getEquipe(index).getEq1()) + "', nom_j2 = '" + mysql_real_escape_string(getEquipe(index).getEq2()) + "' WHERE id_equipe = " + getEquipe(index).getId() + ";";
 			System.out.println(req);
 			st.executeUpdate(req);
 		    majEquipes();
