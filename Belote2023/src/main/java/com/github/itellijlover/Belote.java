@@ -20,19 +20,8 @@ public class Belote {
 		Statement statement;
 
 		try {
-			// Créer le répertoire pour stocker les fichiers de la base de données s'il n'existe pas encore
-			String folder = System.getenv("APPDATA") + "\\jBelote";
-			System.out.println("Dossier de stockage : " + folder);
-			if (!new File(folder).isDirectory()) {
-				if (!new File(folder).mkdir()) {
-					System.out.println("Imppossible de créer le dossier de stockage, fonctionnement impossible, fermeture imminente.");
-					System.exit(1);
-				}
-			}
-
 			// Se connecter à la base de données
-			String dbUrl = String.format(DB_URL, folder);
-			connection = DriverManager.getConnection(dbUrl, "sa", "");
+			connection = DatabaseSingleton.getInstance().getConnection();
 			statement = connection.createStatement();
 
 			// Importer le schéma SQL à partir d'un fichier
