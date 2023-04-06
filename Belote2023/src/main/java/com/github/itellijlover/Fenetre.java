@@ -56,22 +56,22 @@ public class Fenetre extends JFrame {
 
 	public Fenetre(Statement st) {
 		s = st;
-		this.setTitle("Gestion de tournoi de Belote");
+		setTitle("Gestion de tournoi de Belote");
 		setSize(800,400);
-		this.setVisible(true);
-		this.setLocationRelativeTo(this.getParent());
+		setVisible(true);
+		setLocationRelativeTo(getParent());
 
 
 		JPanel contenu = new JPanel();
 		contenu.setLayout(new BorderLayout());
-		this.setContentPane(contenu);
+		setContentPane(contenu);
 
 
 		JPanel phaut = new JPanel();
 		contenu.add(phaut,BorderLayout.NORTH);
 
 		phaut.add(statut_slect = new JLabel());
-		this.setStatutSelect("Pas de tournoi sélectionné");
+		setStatutSelect("Pas de tournoi sélectionné");
 
 		JPanel pgauche = new JPanel();
 		pgauche.setBackground(Color.RED);
@@ -148,7 +148,7 @@ public class Fenetre extends JFrame {
 
 				int total, termines;
 				try {
-					ResultSet rs = DialogMatch.getMatchTermines(this.t.getId_tournoi());
+					ResultSet rs = DialogMatch.getMatchTermines(t.getId_tournoi());
 					rs.next();
 					total    = rs.getInt(1);
 					termines = rs.getInt(2);
@@ -170,7 +170,7 @@ public class Fenetre extends JFrame {
 
 		int nbdeLignes = 0;
 		Vector<String> noms_tournois = new Vector<>();
-        this.setStatutSelect("sélection d'un tournoi");
+        setStatutSelect("sélection d'un tournoi");
 		ResultSet rs;
 		try {
 			rs = DialogMatch.getTournois();
@@ -650,7 +650,7 @@ public class Fenetre extends JFrame {
 		Vector<Vector<Object>> to = new Vector<>();
 		Vector<Object> v;
 		try {
-			ResultSet rs = DialogMatch.getResultMatch(this.t.getId_tournoi());
+			ResultSet rs = DialogMatch.getResultMatch(t.getId_tournoi());
 			while(rs.next()){
 				v = new Vector<>();
 				v.add(rs.getInt("equipe"));
@@ -704,7 +704,7 @@ public class Fenetre extends JFrame {
 	private void majStatutM() {
 		int total, termines;
 		try {
-			ResultSet rs = DialogMatch.getMatchTermines(this.t.getId_tournoi());
+			ResultSet rs = DialogMatch.getMatchTermines(t.getId_tournoi());
 			rs.next();
 			total    = rs.getInt(1);
 			termines = rs.getInt(2);
