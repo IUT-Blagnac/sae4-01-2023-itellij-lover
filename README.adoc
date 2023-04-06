@@ -219,3 +219,7 @@ Pleins de champs ont été transformés en variables locales car ils ne sont pas
 ==== Tournoi
 
 Dans cette classe nous avons utilisé les getters et setters créés, notamment pour MatchM. Nous avons aussi mit en privé les attributs pour plus de sécuritée et un getter pour `id_tournoi`.
+
+=== Mise en place d'un singleton pour la connexion a la base de données
+
+Nous avons créé la classe DatabaseSingleton.java afin de se connecter à la base de données. 
