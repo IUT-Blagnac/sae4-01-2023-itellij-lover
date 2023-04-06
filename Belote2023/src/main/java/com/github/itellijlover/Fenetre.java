@@ -1,5 +1,6 @@
 package com.github.itellijlover;
 
+import com.github.itellijlover.dialog.DialogMatch;
 import com.github.itellijlover.model.Equipe;
 import com.github.itellijlover.model.MatchM;
 
@@ -14,18 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 
 public class Fenetre extends JFrame {
@@ -66,22 +56,22 @@ public class Fenetre extends JFrame {
 
 	public Fenetre(Statement st) {
 		s = st;
-		this.setTitle("Gestion de tournoi de Belote");
+		setTitle("Gestion de tournoi de Belote");
 		setSize(800,400);
-		this.setVisible(true);
-		this.setLocationRelativeTo(this.getParent());
+		setVisible(true);
+		setLocationRelativeTo(getParent());
 
 
 		JPanel contenu = new JPanel();
 		contenu.setLayout(new BorderLayout());
-		this.setContentPane(contenu);
+		setContentPane(contenu);
 
 
 		JPanel phaut = new JPanel();
 		contenu.add(phaut,BorderLayout.NORTH);
 
 		phaut.add(statut_slect = new JLabel());
-		this.setStatutSelect("Pas de tournoi sélectionné");
+		setStatutSelect("Pas de tournoi sélectionné");
 
 		JPanel pgauche = new JPanel();
 		pgauche.setBackground(Color.RED);
@@ -158,7 +148,7 @@ public class Fenetre extends JFrame {
 
 				int total, termines;
 				try {
-					ResultSet rs = s.executeQuery("Select count(*) as total, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.getId_tournoi() +" GROUP by id_tournoi ;");
+					ResultSet rs = DialogMatch.getMatchTermines(t.getId_tournoi());
 					rs.next();
 					total    = rs.getInt(1);
 					termines = rs.getInt(2);
@@ -180,10 +170,10 @@ public class Fenetre extends JFrame {
 
 		int nbdeLignes = 0;
 		Vector<String> noms_tournois = new Vector<>();
-        this.setStatutSelect("sélection d'un tournoi");
+        setStatutSelect("sélection d'un tournoi");
 		ResultSet rs;
 		try {
-			rs = s.executeQuery("SELECT * FROM tournois;");
+			rs = DialogMatch.getTournois();
 
 			while (rs.next()) {
 				nbdeLignes++;
@@ -192,8 +182,7 @@ public class Fenetre extends JFrame {
 
 			rs.close();
 		} catch (SQLException e) {
-			System.out.println("Erreur lors de la requète :" + e.getMessage());
-			e.printStackTrace();
+			afficherErreur("Erreur lors de la requète :" + e.getMessage());
 		}
 		
 		if (tournois_trace) {
@@ -463,7 +452,7 @@ public class Fenetre extends JFrame {
 		Vector<Object> v;
 		boolean peutajouter = true;
 		try {
-			ResultSet rs = s.executeQuery("Select num_tour,count(*) as tmatchs, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.num_tour=m.num_tour  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.getId_tournoi() + " GROUP BY m.num_tour,m.id_tournoi;");
+			ResultSet rs = DialogMatch.getToursParMatch(t.getId_tournoi());
 			while (rs.next()) {
 				v = new Vector<>();
 				v.add(rs.getInt("num_tour"));
@@ -637,8 +626,6 @@ public class Fenetre extends JFrame {
 			JScrollPane match_js = new JScrollPane(match_jt);
 			match_p.add(match_js);
 
-			System.out.println("truc2");
-
 			JPanel match_bas = new JPanel();
 			match_bas.add(match_statut = new JLabel("?? Matchs joués"));
 			match_bas.add(match_valider = new JButton("Afficher les résultats"));
@@ -663,7 +650,7 @@ public class Fenetre extends JFrame {
 		Vector<Vector<Object>> to = new Vector<>();
 		Vector<Object> v;
 		try {
-			ResultSet rs = s.executeQuery("SELECT equipe,(SELECT nom_j1 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.t.getId_tournoi() + ") as joueur1,(SELECT nom_j2 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.t.getId_tournoi() + ") as joueur2, SUM(score) as score, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes, (SELECT COUNT(*) FROM matchs m WHERE m.equipe1 = equipe OR m.equipe2=equipe) as matchs_joues FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.t.getId_tournoi() + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.t.getId_tournoi() + ") GROUP BY equipe ORDER BY matchs_gagnes DESC;");
+			ResultSet rs = DialogMatch.getResultMatch(t.getId_tournoi());
 			while(rs.next()){
 				v = new Vector<>();
 				v.add(rs.getInt("equipe"));
@@ -675,6 +662,7 @@ public class Fenetre extends JFrame {
 				to.add(v);
 			}
 		} catch (SQLException e) {
+			afficherErreur("Erreur lors de la récupération des résultats du match de ce tournoi");
 			System.out.println(e.getMessage());
 		}
 		Vector<String> columnNames = new Vector<>();
@@ -716,7 +704,7 @@ public class Fenetre extends JFrame {
 	private void majStatutM() {
 		int total, termines;
 		try {
-			ResultSet rs = s.executeQuery("Select count(*) as total, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.getId_tournoi() +" GROUP by id_tournoi ;");
+			ResultSet rs = DialogMatch.getMatchTermines(t.getId_tournoi());
 			rs.next();
 			total    = rs.getInt(1);
 			termines = rs.getInt(2);
@@ -726,6 +714,10 @@ public class Fenetre extends JFrame {
 		}
 		match_statut.setText(termines + "/" + total + " matchs terminés");
 		match_valider.setEnabled(total == termines);
+	}
+
+	public static void afficherErreur(String message) {
+		JOptionPane.showMessageDialog(null, message, "ERREUR", JOptionPane.ERROR_MESSAGE);
 	}
 
 }
