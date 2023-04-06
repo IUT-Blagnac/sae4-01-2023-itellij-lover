@@ -15,18 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 
 public class Fenetre extends JFrame {
@@ -193,8 +182,7 @@ public class Fenetre extends JFrame {
 
 			rs.close();
 		} catch (SQLException e) {
-			System.out.println("Erreur lors de la requète :" + e.getMessage());
-			e.printStackTrace();
+			afficherErreur("Erreur lors de la requète :" + e.getMessage());
 		}
 		
 		if (tournois_trace) {
@@ -638,8 +626,6 @@ public class Fenetre extends JFrame {
 			JScrollPane match_js = new JScrollPane(match_jt);
 			match_p.add(match_js);
 
-			System.out.println("truc2");
-
 			JPanel match_bas = new JPanel();
 			match_bas.add(match_statut = new JLabel("?? Matchs joués"));
 			match_bas.add(match_valider = new JButton("Afficher les résultats"));
@@ -676,6 +662,7 @@ public class Fenetre extends JFrame {
 				to.add(v);
 			}
 		} catch (SQLException e) {
+			afficherErreur("Erreur lors de la récupération des résultats du match de ce tournoi");
 			System.out.println(e.getMessage());
 		}
 		Vector<String> columnNames = new Vector<>();
@@ -727,6 +714,10 @@ public class Fenetre extends JFrame {
 		}
 		match_statut.setText(termines + "/" + total + " matchs terminés");
 		match_valider.setEnabled(total == termines);
+	}
+
+	public static void afficherErreur(String message) {
+		JOptionPane.showMessageDialog(null, message, "ERREUR", JOptionPane.ERROR_MESSAGE);
 	}
 
 }
