@@ -6,15 +6,15 @@ public 	class Equipe {
 
 	private final int num;
 
-	private String eq1;
+	private String nom_j1;
 
-	private String eq2;
+	private String nom_j2;
 
-	public Equipe(int _id, int _num, String _eq1, String _eq2) {
+	public Equipe(int _id, int _num, String _nom_j1, String _nom_j2) {
 		id = _id;
 		num = _num;
-		eq1 = _eq1;
-		eq2 = _eq2;
+		this.nom_j1 = _nom_j1;
+		nom_j2 = _nom_j2;
 	}
 
 	public int getId() {
@@ -25,20 +25,20 @@ public 	class Equipe {
 		return num;
 	}
 
-	public String getEq1() {
-		return eq1;
+	public String getNom_j1() {
+		return nom_j1;
 	}
 
-	public void setEq1(String eq1) {
-		this.eq1 = eq1;
+	public void setNom_j1(String nom_j1) {
+		this.nom_j1 = nom_j1;
 	}
 
-	public String getEq2() {
-		return eq2;
+	public String getNom_j2() {
+		return nom_j2;
 	}
 
-	public void setEq2(String eq2) {
-		this.eq2 = eq2;
+	public void setNom_j2(String nom_j2) {
+		this.nom_j2 = nom_j2;
 	}
 
 }
