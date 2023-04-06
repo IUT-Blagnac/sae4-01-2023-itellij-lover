@@ -1,5 +1,6 @@
 package com.github.itellijlover;
 
+import com.github.itellijlover.DAO.EquipeDAO;
 import com.github.itellijlover.model.Equipe;
 import com.github.itellijlover.model.MatchM;
 
@@ -14,23 +15,27 @@ import javax.swing.JOptionPane;
 
 public class Tournoi {
 
-	private final Statement statement; // TODO enlever
+	private final Statement statement; // TODO enlever quand toutes les DAO seront faites
+//	private final TournoiDAO tournoiDAO = TournoiDAO.getInstance(); // TODO à faire
+	private final EquipeDAO equipeDAO = EquipeDAO.getInstance();
+//	private final MatchDAO matchDAO = MatchDAO.getInstance(); // TODO à faire
+//	private final TourDAO tourDAO = TourDAO.getInstance(); // TODO à faire
 
 	private int id;
-	private final String nom_tournoi;
+	private final String nom;
 	private int statut_en_int;
 	private String statut_en_string; // TODO inutile ?
 
 	private List<Equipe> list_equipe;
 	private List<MatchM> list_match;
 
-	public Tournoi(String nom_tournoi) {
+	public Tournoi(String nom) {
 		this.statement = Belote.statement; // TODO enlever
 
-		this.nom_tournoi = nom_tournoi;
+		this.nom = nom;
 
 		try {
-			ResultSet rs = statement.executeQuery("SELECT * FROM tournois WHERE nom_tournoi = '" + Tournoi.mysql_real_escape_string(nom_tournoi) + "';");
+			ResultSet rs = statement.executeQuery("SELECT * FROM tournois WHERE nom_tournoi = '" + Tournoi.mysql_real_escape_string(nom) + "';");
 			if (!rs.next()) {
 				return;
 			}
@@ -46,7 +51,7 @@ public class Tournoi {
 			e.printStackTrace();
 		}
 
-		switch(this.statut_en_int) {
+		switch (this.statut_en_int) {
 			case 0:
 				statut_en_string = "Inscription des joueurs";
 				break;
@@ -70,7 +75,7 @@ public class Tournoi {
 	}
 
 	public String getNom() {
-		return nom_tournoi;
+		return nom;
 	}
 
 	public int getStatut() {
@@ -81,48 +86,104 @@ public class Tournoi {
 		return statut_en_string;
 	}
 
-	public void getEquipes() {
-		list_equipe = new Vector<>();
 
-		try {
-			ResultSet rs = statement.executeQuery(
-					"SELECT * FROM equipes WHERE id_tournoi = "
-						+ id
-						+ " ORDER BY num_equipe;");
-			while (rs.next()) {
-				list_equipe.add(new Equipe(
-						rs.getInt("id_equipe"),
-						rs.getInt("num_equipe"),
-						rs.getString("nom_j1"),
-						rs.getString("nom_j2")));
+	// Gestion tournois TODO mettre dans TournoiDAO.java
+
+	public static void creerTournoi(Statement statement) {
+		String string = JOptionPane.showInputDialog(
+				null,
+				"Entrez le nom du tournoi",
+				"Nom du tournoi",
+				JOptionPane.PLAIN_MESSAGE);
+
+		if (string != null && !string.isEmpty()) {
+			try {
+				string =  mysql_real_escape_string(string);
+				if (string.length() < 3) {
+					JOptionPane.showMessageDialog(null, "Le tournoi n'a pas été créé. Nom trop court.");
+					return;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			rs.close();
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			if (string.equals("")) {
+				JOptionPane.showMessageDialog(null, "Le tournoi n'a pas été créé. Ne pas mettre de caractères spéciaux ou accents dans le nom");
+			} else {
+				ResultSet rs;
+				try {
+					rs = statement.executeQuery("SELECT id_tournoi FROM tournois WHERE nom_tournoi = '" + string + "';");
+					if (rs.next()) {
+						JOptionPane.showMessageDialog(null, "Le tournoi n'a pas été créé. Un tournoi du même nom existe déjà");
+						return;
+					}
+					System.out.println("INSERT INTO tournois (id_tournoi, nb_matchs, nom_tournoi, statut) VALUES (NULL, 10, '"+string+"', 0)");
+					statement.executeUpdate("INSERT INTO tournois (id_tournoi, nb_matchs, nom_tournoi, statut) VALUES (NULL, 10, '"+string+"', 0)");
+				} catch (SQLException e) {
+					System.out.println("Erreur requete insertion nouveau tournoi:" + e.getMessage());
+				}
+			}
 		}
 	}
 
-	public void majMatch() {
-		list_match = new Vector<>();
+	public static void deleteTournoi(Statement s2, String nomtournoi) {
 		try {
-			ResultSet rs= statement.executeQuery("SELECT * FROM matchs WHERE id_tournoi="+ id + ";");
-			while (rs.next()) {
-				list_match.add(new MatchM(rs.getInt("id_match"), rs.getInt("equipe1"), rs.getInt("equipe2"), rs.getInt("score1"), rs.getInt("score2"), rs.getInt("num_tour")));
-			}
+			int idt;
+			ResultSet rs = s2.executeQuery("SELECT id_tournoi FROM tournois WHERE nom_tournoi = '" + mysql_real_escape_string(nomtournoi) + "';");
+			rs.next();
+			idt = rs.getInt(1);
 			rs.close();
+			System.out.println("ID du tournoi à supprimer:" + idt);
+			s2.executeUpdate("DELETE FROM matchs   WHERE id_tournoi = " + idt);
+			s2.executeUpdate("DELETE FROM equipes  WHERE id_tournoi = " + idt);
+			s2.executeUpdate("DELETE FROM tournois WHERE id_tournoi = " + idt);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Erreur suppression" + e.getMessage());
+		} catch (Exception e) {
+			System.out.println("Erreur inconnue");
 		}
 	}
 
-	public MatchM getMatch(int index) {
-		if (list_match == null) majMatch();
-		return list_match.get(index);
+
+	// Gestion équipes
+
+	public void addEquipe() {
+		int num_new_equipe = list_equipe.size()+1;
+
+		boolean already_used = true;
+
+		while (already_used) {
+			already_used = false;
+			for (Equipe equipe : list_equipe) {
+				if (equipe.getId() == num_new_equipe) {
+					already_used = true;
+					num_new_equipe++;
+					break;
+				}
+			}
+		}
+
+		Equipe equipe = new Equipe(0, num_new_equipe, id, "Joueur 1", "Joueur 2");
+
+		equipeDAO.add(equipe);
+
+		list_equipe.add(equipe);
 	}
 
-	public int getNbMatchs() {
-		if (list_match == null) majMatch();
-		return list_match.size();
+	public void updateEquipe(int index) {
+		Equipe equipe = list_equipe.get(index);
+		equipeDAO.update(equipe);
+		list_equipe.remove(equipe);
+		list_equipe.add(equipe);
+	}
+
+	public void deleteEquipe(int id_equipe) {
+		for (Equipe e : list_equipe) {
+			if (e.getId() == id_equipe) {
+				equipeDAO.delete(e.getId());
+				list_equipe.remove(e);
+				break;
+			}
+		}
 	}
 
 	public Equipe getEquipe(int index) {
@@ -130,21 +191,17 @@ public class Tournoi {
 		return list_equipe.get(index);
 	}
 
+	public void getEquipes() {
+		list_equipe = equipeDAO.getFromTournoi(id);
+	}
+
 	public int getNbEquipes() {
 		if (list_equipe == null) getEquipes();
 		return list_equipe.size();
 	}
 
-	public int getNbTours() {
-		try {
-			ResultSet rs = statement.executeQuery("SELECT MAX (num_tour)  FROM matchs WHERE id_tournoi="+ id +"; ");
-			rs.next();
-			return rs.getInt(1);
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			return -1;
-		}
-	}
+
+	// Gestion matchs TODO mettre dans MacthDAO.java
 
 	public void genererMatchs() {
 		int nbt = 1;
@@ -175,6 +232,99 @@ public class Tournoi {
 		}
 	}
 
+	public void majMatch() {
+		list_match = new Vector<>();
+		try {
+			ResultSet rs= statement.executeQuery("SELECT * FROM matchs WHERE id_tournoi="+ id + ";");
+			while (rs.next()) {
+				list_match.add(new MatchM(rs.getInt("id_match"), rs.getInt("equipe1"), rs.getInt("equipe2"), rs.getInt("score1"), rs.getInt("score2"), rs.getInt("num_tour")));
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public void majMatch(int index) {
+		String termine = (getMatch(index).getScore1() > 0 || getMatch(index).getScore2() > 0) ? "oui":"non";
+		System.out.println(termine);
+		String req = "UPDATE matchs SET equipe1='" + getMatch(index).getEq1() + "', equipe2='" + getMatch(index).getEq2() + "',  score1='" + getMatch(index).getScore1() + "',  score2='" +getMatch(index).getScore2() + "', termine='" + termine + "' WHERE id_match = " + getMatch(index).getIdmatch() + ";";
+		try {
+			statement.executeUpdate(req);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		majMatch();
+	}
+
+	public MatchM getMatch(int index) {
+		if (list_match == null) majMatch();
+		return list_match.get(index);
+	}
+
+	public static Vector<Vector<MatchM>> getMatchsToDo(int nbJoueurs, int nbTours) {
+		if (nbTours  >= nbJoueurs) {
+			System.out.println("Erreur tours < equipes");
+			return null;
+		}
+
+		int[] tabJoueurs;
+		if ((nbJoueurs % 2) == 1) {
+			// Nombre impair de joueurs, on rajoute une �quipe fictive
+			tabJoueurs   = new int[nbJoueurs+1];
+			tabJoueurs[nbJoueurs] = -1;
+			for (int z = 0; z < nbJoueurs;z++) {
+				tabJoueurs[z] = z+1;
+			}
+			nbJoueurs++;
+		} else {
+			tabJoueurs   = new int[nbJoueurs];
+			for (int z = 0; z < nbJoueurs;z++) {
+				tabJoueurs[z] = z+1;
+			}
+		}
+
+		boolean quitter;
+		int i, increment = 1, temp;
+
+		Vector<Vector<MatchM>> retour = new Vector<>();
+
+		Vector<MatchM> vm;
+
+		for (int r = 1; r <= nbTours;r++) {
+			if (r > 1) {
+				temp = tabJoueurs[nbJoueurs - 2];
+				for (i = (nbJoueurs - 2) ; i > 0; i--) {
+					tabJoueurs[i] = tabJoueurs[i-1];
+				}
+				tabJoueurs[0] = temp;
+			}
+			i       = 0;
+			quitter = false;
+			vm = new Vector<>();
+			while (!quitter) {
+				if (tabJoueurs[i] != -1 && tabJoueurs[nbJoueurs - 1  - i] != -1) {
+					vm.add(new MatchM(tabJoueurs[i], tabJoueurs[nbJoueurs - 1  - i]));
+				}
+				// Sinon : Nombre impair de joueur, le joueur n'a pas d'adversaire
+				i += increment;
+				if (i >= nbJoueurs / 2) {
+					quitter = true;
+				}
+			}
+			retour.add(vm);
+		}
+		return retour;
+	}
+
+	public int getNbMatchs() {
+		if (list_match == null) majMatch();
+		return list_match.size();
+	}
+
+
+	// Gestion tours TODO mettre dans ToursDAO.java
+
 	public void ajouterTour() {
 		// Recherche du nombre de tours actuel
 		int nbtoursav;
@@ -190,7 +340,6 @@ public class Tournoi {
 			return;
 		}
 		System.out.println("Nombre de tours avant:" + nbtoursav);
-
 
 		if (nbtoursav == 0) {
 			Vector<MatchM> ms;
@@ -278,195 +427,34 @@ public class Tournoi {
 		}
 	}
 
-	public static void deleteTournoi(Statement s2, String nomtournoi) {
+	public int getNbTours() {
 		try {
-			int idt;
-			ResultSet rs = s2.executeQuery("SELECT id_tournoi FROM tournois WHERE nom_tournoi = '" + mysql_real_escape_string(nomtournoi) + "';");
+			ResultSet rs = statement.executeQuery("SELECT MAX (num_tour)  FROM matchs WHERE id_tournoi="+ id +"; ");
 			rs.next();
-			idt = rs.getInt(1);
-			rs.close();
-			System.out.println("ID du tournoi à supprimer:" + idt);
-			s2.executeUpdate("DELETE FROM matchs   WHERE id_tournoi = " + idt);
-			s2.executeUpdate("DELETE FROM equipes  WHERE id_tournoi = " + idt);
-			s2.executeUpdate("DELETE FROM tournois WHERE id_tournoi = " + idt);
+			return rs.getInt(1);
 		} catch (SQLException e) {
-			System.out.println("Erreur suppression" + e.getMessage());
-
-		} catch (Exception e) {
-			System.out.println("Erreur inconnue");
+			System.out.println(e.getMessage());
+			return -1;
 		}
 	}
 
-	public static void creerTournoi(Statement statement) {
-		String string = JOptionPane.showInputDialog(
-                null,
-                "Entrez le nom du tournoi",
-                "Nom du tournoi",
-                JOptionPane.PLAIN_MESSAGE);
-
-
-		if (string != null && !string.isEmpty()) {
-			try {
-				string =  mysql_real_escape_string(string);
-				if (string.length() < 3) {
-					JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Nom trop court.");
-					return;
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			if (string.equals("")) {
-				JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Ne pas mettre de caract�res sp�ciaux ou accents dans le nom");
-			} else {
-				ResultSet rs;
-				try {
-					rs = statement.executeQuery("SELECT id_tournoi FROM tournois WHERE nom_tournoi = '" + string + "';");
-					if (rs.next()) {
-						JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Un tournoi du m�me nom existe d�j�");
-						return;
-					}
-					System.out.println("INSERT INTO tournois (id_tournoi, nb_matchs, nom_tournoi, statut) VALUES (NULL, 10, '"+string+"', 0)");
-					statement.executeUpdate("INSERT INTO tournois (id_tournoi, nb_matchs, nom_tournoi, statut) VALUES (NULL, 10, '"+string+"', 0)");
-				} catch (SQLException e) {
-					System.out.println("Erreur requete insertion nouveau tournoi:" + e.getMessage());
-				}
-			}
-		}
-	}
-
-	public void ajouterEquipe() {
-		int num_new_equipe = list_equipe.size()+1;
-		boolean already_used = true;
-
-		while (already_used) {
-			already_used = false;
-			for (Equipe equipe : list_equipe) {
-				if (equipe.getId() == num_new_equipe) {
-					already_used = true;
-					num_new_equipe++;
-					break;
-				}
-			}
-		}
-
-		try {
-			statement.executeUpdate("INSERT INTO equipes (id_equipe,num_equipe,id_tournoi,nom_j1,nom_j2) VALUES (NULL,"+num_new_equipe+", "+ id + ",'\"Joueur 1\"', '\"Joueur 2\"');");
-			getEquipes();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void majEquipe(int index) {
-		try {
-			String req = "UPDATE equipes SET nom_j1 = '" + mysql_real_escape_string(getEquipe(index).getNom_j1()) + "', nom_j2 = '" + mysql_real_escape_string(getEquipe(index).getNom_j2()) + "' WHERE id_equipe = " + getEquipe(index).getId() + ";";
-			System.out.println(req);
-			statement.executeUpdate(req);
-			getEquipes();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void majMatch(int index) {
-		String termine = (getMatch(index).getScore1() > 0 || getMatch(index).getScore2() > 0) ? "oui":"non";
-		System.out.println(termine);
-		String req = "UPDATE matchs SET equipe1='" + getMatch(index).getEq1() + "', equipe2='" + getMatch(index).getEq2() + "',  score1='" + getMatch(index).getScore1() + "',  score2='" +getMatch(index).getScore2() + "', termine='" + termine + "' WHERE id_match = " + getMatch(index).getIdmatch() + ";";
-		try {
-			statement.executeUpdate(req);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		majMatch();
-	}
-
-	public void supprimerEquipe(int ideq) {
-		try {
-			int numeq;
-			ResultSet rs = statement.executeQuery("SELECT num_equipe FROM equipes WHERE id_equipe = " + ideq);
-			rs.next();
-			numeq = rs.getInt(1);
-			rs.close();
-			statement.executeUpdate("DELETE FROM equipes WHERE id_tournoi = " + id + " AND id_equipe = " + ideq);
-			statement.executeUpdate("UPDATE equipes SET num_equipe = num_equipe - 1 WHERE id_tournoi = " + id + " AND num_equipe > " + numeq);
-			getEquipes();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-    public static String mysql_real_escape_string(String str) {
-          if (str == null) {
-              return null;
-          }
-
-          if (str.replaceAll("[a-zA-Z\\d_!@#$%^&*()-=+~.;:,\\Q[\\E\\Q]\\E<>{}/? ]","").length() < 1) {
-              return str;
-          }
-
-          String clean_string = str;
-          clean_string = clean_string.replaceAll("\\n","\\\\n");
-          clean_string = clean_string.replaceAll("\\r", "\\\\r");
-          clean_string = clean_string.replaceAll("\\t", "\\\\t");
-          clean_string = clean_string.replaceAll("\\00", "\\\\0");
-          clean_string = clean_string.replaceAll("'", "''");
-          return clean_string;
-
-      }
-
-	public static Vector<Vector<MatchM>> getMatchsToDo(int nbJoueurs, int nbTours) {
-		if (nbTours  >= nbJoueurs) {
-			System.out.println("Erreur tours < equipes");
+	public static String mysql_real_escape_string(String str) {
+		if (str == null) {
 			return null;
 		}
 
-		int[] tabJoueurs;
-		if ((nbJoueurs % 2) == 1) {
-			// Nombre impair de joueurs, on rajoute une �quipe fictive
-			tabJoueurs   = new int[nbJoueurs+1];
-			tabJoueurs[nbJoueurs] = -1;
-			for (int z = 0; z < nbJoueurs;z++) {
-				tabJoueurs[z] = z+1;
-			}
-			nbJoueurs++;
-		} else {
-			tabJoueurs   = new int[nbJoueurs];
-			for (int z = 0; z < nbJoueurs;z++) {
-				tabJoueurs[z] = z+1;
-			}
+		if (str.replaceAll("[a-zA-Z\\d_!@#$%^&*()-=+~.;:,\\Q[\\E\\Q]\\E<>{}/? ]","").length() < 1) {
+			return str;
 		}
 
-		boolean quitter;
-		int i, increment = 1, temp;
+		String clean_string = str;
+		clean_string = clean_string.replaceAll("\\n","\\\\n");
+		clean_string = clean_string.replaceAll("\\r", "\\\\r");
+		clean_string = clean_string.replaceAll("\\t", "\\\\t");
+		clean_string = clean_string.replaceAll("\\00", "\\\\0");
+		clean_string = clean_string.replaceAll("'", "''");
+		return clean_string;
 
-		Vector<Vector<MatchM>> retour = new Vector<>();
-
-		Vector<MatchM> vm;
-
-		for (int r = 1; r <= nbTours;r++) {
-			if (r > 1) {
-				temp = tabJoueurs[nbJoueurs - 2];
-				for (i = (nbJoueurs - 2) ; i > 0; i--) {
-					tabJoueurs[i] = tabJoueurs[i-1];
-				}
-				tabJoueurs[0] = temp;
-			}
-			i       = 0;
-			quitter = false;
-			vm = new Vector<>();
-			while (!quitter) {
-				if (tabJoueurs[i] != -1 && tabJoueurs[nbJoueurs - 1  - i] != -1) {
-					vm.add(new MatchM(tabJoueurs[i], tabJoueurs[nbJoueurs - 1  - i]));
-				}
-				// Sinon : Nombre impair de joueur, le joueur n'a pas d'adversaire
-				i += increment;
-				if (i >= nbJoueurs / 2) {
-					quitter = true;
-				}
-			}
-			retour.add(vm);
-		}
-		return retour;
 	}
 
 }

@@ -335,10 +335,10 @@ public class Fenetre extends JFrame {
 						r = t.getEquipe(arg0).getNum();
 					break;
 					case 1:
-						r = t.getEquipe(arg0).getNom_j1();
+						r = t.getEquipe(arg0).getNomJ1();
 					break;
 					case 2:
-						r = t.getEquipe(arg0).getNom_j2();
+						r = t.getEquipe(arg0).getNomJ2();
 					break;
 					}
 					return r;
@@ -375,11 +375,11 @@ public class Fenetre extends JFrame {
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 					Equipe e = t.getEquipe(rowIndex);
 					if (columnIndex == 1) {
-						e.setNom_j1((String)aValue);
+						e.setNomJ1((String)aValue);
 					} else if (columnIndex == 2) {
-						e.setNom_j2((String)aValue);
+						e.setNomJ2((String)aValue);
 					}
-					t.majEquipe(rowIndex);
+					t.updateEquipe(rowIndex);
 					fireTableDataChanged();
 				}
 			};
@@ -393,7 +393,7 @@ public class Fenetre extends JFrame {
 			eq_valider   = new JButton("Valider les équipes");
 
 			eq_ajouter.addActionListener(arg0 -> {
-				t.ajouterEquipe();
+				t.addEquipe();
 				eq_valider.setEnabled(t.getNbEquipes() > 0 && t.getNbEquipes() % 2 == 0) ;
 				eq_modele.fireTableDataChanged();
 				if (t.getNbEquipes() > 0) {
@@ -403,7 +403,7 @@ public class Fenetre extends JFrame {
 
 			eq_supprimer.addActionListener(e -> {
 				if (Fenetre.this.eq_jt.getSelectedRow() != -1) {
-					t.supprimerEquipe(t.getEquipe(Fenetre.this.eq_jt.getSelectedRow()).getId());
+					t.deleteEquipe(t.getEquipe(Fenetre.this.eq_jt.getSelectedRow()).getId());
 				}
 				eq_valider.setEnabled(t.getNbEquipes() > 0 && t.getNbEquipes() % 2 == 0) ;
 				eq_modele.fireTableDataChanged();

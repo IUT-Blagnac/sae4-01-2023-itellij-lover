@@ -6,14 +6,17 @@ public 	class Equipe {
 
 	private final int num;
 
+	private final int id_tournoi;
+
 	private String nom_j1;
 
 	private String nom_j2;
 
-	public Equipe(int _id, int _num, String _nom_j1, String _nom_j2) {
+	public Equipe(int _id, int _num, int _id_tournoi, String _nom_j1, String _nom_j2) {
 		id = _id;
 		num = _num;
-		this.nom_j1 = _nom_j1;
+		id_tournoi = _id_tournoi;
+		nom_j1 = _nom_j1;
 		nom_j2 = _nom_j2;
 	}
 
@@ -25,19 +28,23 @@ public 	class Equipe {
 		return num;
 	}
 
-	public String getNom_j1() {
+	public int getIdTournoi() {
+		return id_tournoi;
+	}
+
+	public String getNomJ1() {
 		return nom_j1;
 	}
 
-	public void setNom_j1(String nom_j1) {
+	public void setNomJ1(String nom_j1) {
 		this.nom_j1 = nom_j1;
 	}
 
-	public String getNom_j2() {
+	public String getNomJ2() {
 		return nom_j2;
 	}
 
-	public void setNom_j2(String nom_j2) {
+	public void setNomJ2(String nom_j2) {
 		this.nom_j2 = nom_j2;
 	}
 
