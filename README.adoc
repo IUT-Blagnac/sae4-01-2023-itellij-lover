@@ -223,3 +223,15 @@ Dans cette classe nous avons utilisé les getters et setters créés, notamment 
 === Mise en place d'un singleton pour la connexion a la base de données
 
 Nous avons créé la classe DatabaseSingleton.java afin de se connecter à la base de données. 
+
+=== Fenetre d'erreur
+
+==== Fenetre
+
+Création d'une méthode statique permettant d'afficher une fenêtre d'erreur avec le message souhaité, ainsi nous pouvons supprimer pas mal de retour d'erreur présents dans la console.
+
+=== Réduction de la pollution visuelle du code
+
+==== Fenetre
+
+Suppression de beaucoup de `this.` inutiles.
