@@ -148,7 +148,7 @@ public class Fenetre extends JFrame {
 
 				int total, termines;
 				try {
-					ResultSet rs = DialogMatch.getMatchTermines(t.getId_tournoi());
+					ResultSet rs = DialogMatch.getMatchTermines(t.getId());
 					rs.next();
 					total    = rs.getInt(1);
 					termines = rs.getInt(2);
@@ -259,7 +259,7 @@ public class Fenetre extends JFrame {
 			});
 	        selectTournoi.addActionListener( arg0 -> {
 				String nt = Fenetre.this.list.getSelectedValue();
-				Fenetre.this.t = new Tournoi(nt, Fenetre.this.s);
+				Fenetre.this.t = new Tournoi(nt);
 				Fenetre.this.tracer_details_tournoi();
 				Fenetre.this.setStatutSelect("Tournoi \" " + nt + " \"");
 			});
@@ -334,10 +334,10 @@ public class Fenetre extends JFrame {
 						r = t.getEquipe(arg0).getNum();
 					break;
 					case 1:
-						r = t.getEquipe(arg0).getEq1();
+						r = t.getEquipe(arg0).getNom_j1();
 					break;
 					case 2:
-						r = t.getEquipe(arg0).getEq2();
+						r = t.getEquipe(arg0).getNom_j2();
 					break;
 					}
 					return r;
@@ -374,9 +374,9 @@ public class Fenetre extends JFrame {
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 					Equipe e = t.getEquipe(rowIndex);
 					if (columnIndex == 1) {
-						e.setEq1((String)aValue);
+						e.setNom_j1((String)aValue);
 					} else if (columnIndex == 2) {
-						e.setEq2((String)aValue);
+						e.setNom_j2((String)aValue);
 					}
 					t.majEquipe(rowIndex);
 					fireTableDataChanged();
@@ -452,7 +452,7 @@ public class Fenetre extends JFrame {
 		Vector<Object> v;
 		boolean peutajouter = true;
 		try {
-			ResultSet rs = DialogMatch.getToursParMatch(t.getId_tournoi());
+			ResultSet rs = DialogMatch.getToursParMatch(t.getId());
 			while (rs.next()) {
 				v = new Vector<>();
 				v.add(rs.getInt("num_tour"));
@@ -650,7 +650,7 @@ public class Fenetre extends JFrame {
 		Vector<Vector<Object>> to = new Vector<>();
 		Vector<Object> v;
 		try {
-			ResultSet rs = DialogMatch.getResultMatch(t.getId_tournoi());
+			ResultSet rs = DialogMatch.getResultMatch(t.getId());
 			while(rs.next()){
 				v = new Vector<>();
 				v.add(rs.getInt("equipe"));
@@ -704,7 +704,7 @@ public class Fenetre extends JFrame {
 	private void majStatutM() {
 		int total, termines;
 		try {
-			ResultSet rs = DialogMatch.getMatchTermines(t.getId_tournoi());
+			ResultSet rs = DialogMatch.getMatchTermines(t.getId());
 			rs.next();
 			total    = rs.getInt(1);
 			termines = rs.getInt(2);
