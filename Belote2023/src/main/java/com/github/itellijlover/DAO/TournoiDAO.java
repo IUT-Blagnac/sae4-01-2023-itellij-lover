@@ -1,9 +1,8 @@
 package com.github.itellijlover.DAO;
 
-import com.github.itellijlover.bd.FactoryDB;
+import com.github.itellijlover.db.FactoryDB;
 import com.github.itellijlover.model.Tournoi;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**

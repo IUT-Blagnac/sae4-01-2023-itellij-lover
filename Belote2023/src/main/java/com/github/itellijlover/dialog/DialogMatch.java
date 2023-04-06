@@ -1,6 +1,6 @@
 package com.github.itellijlover.dialog;
 
-import com.github.itellijlover.DatabaseSingleton;
+import com.github.itellijlover.db.DatabaseSingleton;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

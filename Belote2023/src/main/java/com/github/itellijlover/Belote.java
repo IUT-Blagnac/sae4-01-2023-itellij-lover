@@ -1,5 +1,6 @@
 package com.github.itellijlover;
 
+import com.github.itellijlover.db.DatabaseSingleton;
 import com.github.itellijlover.vue.Fenetre;
 
 import java.io.File;

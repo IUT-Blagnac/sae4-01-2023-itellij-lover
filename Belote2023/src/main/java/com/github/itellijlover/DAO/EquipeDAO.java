@@ -1,7 +1,7 @@
 package com.github.itellijlover.DAO;
 
 import com.github.itellijlover.Tournoi;
-import com.github.itellijlover.bd.FactoryDB;
+import com.github.itellijlover.db.FactoryDB;
 import com.github.itellijlover.model.Equipe;
 
 import java.sql.ResultSet;

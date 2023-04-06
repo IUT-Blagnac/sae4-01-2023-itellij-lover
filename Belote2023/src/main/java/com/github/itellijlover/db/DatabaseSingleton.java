@@ -1,4 +1,4 @@
-package com.github.itellijlover;
+package com.github.itellijlover.db;
 
 import java.io.File;
 import java.sql.Connection;
@@ -6,9 +6,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseSingleton {
+
     private static volatile DatabaseSingleton instance;
+
     private static final String DB_URL = "jdbc:hsqldb:file:%s\\belote;shutdown=true";
+
     private static final String FOLDER = System.getenv("APPDATA") + "\\jBelote";
+
     private final Connection connection;
 
     private DatabaseSingleton() throws SQLException {
@@ -40,4 +44,5 @@ public class DatabaseSingleton {
     public Connection getConnection() {
         return connection;
     }
+
 }

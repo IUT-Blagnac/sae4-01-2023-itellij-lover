@@ -1,6 +1,4 @@
-package com.github.itellijlover.bd;
-
-import com.github.itellijlover.DatabaseSingleton;
+package com.github.itellijlover.db;
 
 import java.sql.Connection;
 import java.sql.Statement;
