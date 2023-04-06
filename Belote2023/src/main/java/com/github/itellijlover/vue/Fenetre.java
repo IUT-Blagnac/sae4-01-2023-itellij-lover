@@ -250,19 +250,19 @@ public class Fenetre extends JFrame {
 	        }
 
 	        creerTournoi.addActionListener( e -> {
-				Tournoi.creerTournoi(Fenetre.this.s);
-				Fenetre.this.tracer_select_tournoi();
+				Tournoi.creerTournoi();
+				tracer_select_tournoi();
 			});
 
 	        deleteTournoi.addActionListener( e -> {
-				Tournoi.deleteTournoi(Fenetre.this.s, Fenetre.this.list.getSelectedValue());
-				Fenetre.this.tracer_select_tournoi();
+				Tournoi.deleteTournoi(list.getSelectedValue());
+				tracer_select_tournoi();
 			});
 	        selectTournoi.addActionListener( arg0 -> {
-				String nt = Fenetre.this.list.getSelectedValue();
-				Fenetre.this.t = new Tournoi(nt);
-				Fenetre.this.tracer_details_tournoi();
-				Fenetre.this.setStatutSelect("Tournoi \" " + nt + " \"");
+				String nt = list.getSelectedValue();
+				this.t = new Tournoi(nt);
+				tracer_details_tournoi();
+				setStatutSelect("Tournoi \" " + nt + " \"");
 			});
 	        fen.show(c, TOURNOIS);
 		}

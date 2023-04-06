@@ -26,7 +26,7 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 	}
 
 	public void add(Equipe obj) {
-		String query = "INSERT INTO equipes VALUES (NULL,"
+		String query = "INSERT INTO equipe VALUES (NULL,"
 				+ obj.getNum()+","
 				+ obj.getIdTournoi()+",'"
 				+ obj.getNomJ1()+"','"
@@ -40,7 +40,7 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 	}
 
 	public void update(Equipe obj) {
-		String query = "UPDATE equipes SET "
+		String query = "UPDATE equipe SET "
 				+ "nom_j1 = '"+Tournoi.mysql_real_escape_string(obj.getNomJ1())+"',"
 				+ "nom_j2 = '"+Tournoi.mysql_real_escape_string(obj.getNomJ2())+"' "
 				+ "WHERE id_equipe = "+obj.getId()+";";
@@ -53,7 +53,7 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 	}
 
 	public void delete(int id) {
-		String query = "DELETE FROM equipes WHERE id_equipe = " + id;
+		String query = "DELETE FROM equipe WHERE id_equipe = " + id;
 		try {
 			statement.executeUpdate(query);
 		} catch (SQLException e) {
@@ -65,7 +65,7 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 	public Equipe get(int id) {
 		Equipe equipe = null;
 
-		String query = "SELECT * FROM equipes WHERE id_equipe = "+id;
+		String query = "SELECT * FROM equipe WHERE id_equipe = "+id;
 		try {
 			ResultSet rs = statement.executeQuery(query);
 
@@ -89,7 +89,7 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 	public List<Equipe> getAll() {
 		List<Equipe> list_equipe = new Vector<>();
 
-		String query = "SELECT * FROM equipes;";
+		String query = "SELECT * FROM equipe;";
 		try {
 			ResultSet rs = statement.executeQuery(query);
 
@@ -113,7 +113,7 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 	public List<Equipe> getFromTournoi(int id_tournoi) {
 		List<Equipe> list_equipe = new Vector<>();
 
-		String query = "SELECT * FROM equipes WHERE id_tournoi = "
+		String query = "SELECT * FROM equipe WHERE id_tournoi = "
 				+ id_tournoi
 				+ " ORDER BY num_equipe;";
 		try {
