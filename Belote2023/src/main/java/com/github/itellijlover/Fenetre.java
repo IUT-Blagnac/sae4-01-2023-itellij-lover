@@ -283,7 +283,7 @@ public class Fenetre extends JFrame {
 		tab.add(new JLabel("Nom du tournoi"));
 		tab.add(detailt_nom);
 
-		JLabel detailt_statut = new JLabel(t.getNStatut());
+		JLabel detailt_statut = new JLabel(t.getStatutString());
 		tab.add(new JLabel("Statut"));
 		tab.add(detailt_statut);
 
@@ -310,7 +310,7 @@ public class Fenetre extends JFrame {
 		}
 		majboutons();
 		if (equipes_trace) {
-			t.majEquipes();
+			t.getEquipes();
 			eq_modele.fireTableDataChanged();
 		} else {
 			equipes_trace = true;

@@ -15,9 +15,10 @@ public class Belote {
 
 	private static final String DB_URL = "jdbc:hsqldb:file:%s\\belote;shutdown=true";
 
+	public static Statement statement;
+
 	public static void main(String[] args) {
 		Connection connection;
-		Statement statement;
 
 		try {
 			// Se connecter à la base de données
