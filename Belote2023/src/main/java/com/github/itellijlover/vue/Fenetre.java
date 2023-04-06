@@ -1,5 +1,6 @@
-package com.github.itellijlover;
+package com.github.itellijlover.vue;
 
+import com.github.itellijlover.Tournoi;
 import com.github.itellijlover.dialog.DialogMatch;
 import com.github.itellijlover.model.Equipe;
 import com.github.itellijlover.model.MatchM;
