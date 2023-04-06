@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
 Main-Class: com.github.itellijlover.Belote
-Class-Path: hsqldb-2.2.9.jar
+Class-Path: hsqldb-2.7.1.jar
 
