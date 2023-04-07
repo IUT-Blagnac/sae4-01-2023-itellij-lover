@@ -122,4 +122,5 @@ public class Match {
 			return "  " + eq2 + " contre " + eq1;
 		}
 	}
+
 }

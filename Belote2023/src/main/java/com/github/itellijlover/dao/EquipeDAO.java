@@ -110,7 +110,7 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 	/**
 	 * Récupère toutes les équipes de la base de données.
 	 *
-	 * @return La liste de toutes les équipes.
+	 * @return Une liste de toutes les équipes.
 	 */
 	public List<Equipe> getAll() {
 		List<Equipe> list_equipe = new Vector<>();
@@ -140,7 +140,7 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 	 * Récupère toutes les équipes d'un tournoi donné, triées par numéro d'équipe croissant.
 	 *
 	 * @param id_tournoi L'identifiant du tournoi pour lequel récupérer les équipes.
-	 * @return La liste des équipes du tournoi donné, triées par numéro d'équipe croissant.
+	 * @return Une liste des équipes du tournoi donné, triées par numéro d'équipe croissant.
 	 */
 	public List<Equipe> getFromTournoi(int id_tournoi) {
 		List<Equipe> list_equipe = new Vector<>();
