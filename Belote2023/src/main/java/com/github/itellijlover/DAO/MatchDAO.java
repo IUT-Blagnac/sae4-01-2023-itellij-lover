@@ -1,4 +1,4 @@
-package com.github.itellijlover.DAO;
+package com.github.itellijlover.dao;
 
 import com.github.itellijlover.db.FactoryDB;
 import com.github.itellijlover.model.Match;

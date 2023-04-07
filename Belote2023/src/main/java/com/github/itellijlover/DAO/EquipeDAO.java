@@ -1,6 +1,6 @@
-package com.github.itellijlover.DAO;
+package com.github.itellijlover.dao;
 
-import com.github.itellijlover.TournoiController;
+import com.github.itellijlover.controller.TournoiController;
 import com.github.itellijlover.db.FactoryDB;
 import com.github.itellijlover.model.Equipe;
 

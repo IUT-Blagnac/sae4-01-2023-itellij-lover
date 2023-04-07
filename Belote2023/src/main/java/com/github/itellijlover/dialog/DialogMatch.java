@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * TODO à changer à mon avis
+ * TODO à transformer en DAO
  */
 public class DialogMatch {
 

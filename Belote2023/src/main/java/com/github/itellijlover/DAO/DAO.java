@@ -1,4 +1,4 @@
-package com.github.itellijlover.DAO;
+package com.github.itellijlover.dao;
 
 import java.util.List;
 

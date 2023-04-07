@@ -1,6 +1,6 @@
-package com.github.itellijlover.vue;
+package com.github.itellijlover.view;
 
-import com.github.itellijlover.TournoiController;
+import com.github.itellijlover.controller.TournoiController;
 import com.github.itellijlover.dialog.DialogMatch;
 import com.github.itellijlover.model.Equipe;
 import com.github.itellijlover.model.Match;

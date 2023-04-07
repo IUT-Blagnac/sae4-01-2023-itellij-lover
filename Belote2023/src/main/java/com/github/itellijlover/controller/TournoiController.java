@@ -1,8 +1,8 @@
-package com.github.itellijlover;
+package com.github.itellijlover.controller;
 
-import com.github.itellijlover.DAO.EquipeDAO;
-import com.github.itellijlover.DAO.MatchDAO;
-import com.github.itellijlover.DAO.TournoiDAO;
+import com.github.itellijlover.dao.EquipeDAO;
+import com.github.itellijlover.dao.MatchDAO;
+import com.github.itellijlover.dao.TournoiDAO;
 import com.github.itellijlover.db.DatabaseConnection;
 import com.github.itellijlover.model.Equipe;
 import com.github.itellijlover.model.Match;
