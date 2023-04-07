@@ -1,6 +1,6 @@
 package com.github.itellijlover.DAO;
 
-import com.github.itellijlover.Tournoi;
+import com.github.itellijlover.TournoiController;
 import com.github.itellijlover.db.FactoryDB;
 import com.github.itellijlover.model.Equipe;
 
@@ -41,8 +41,8 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 
 	public void update(Equipe obj) {
 		String query = "UPDATE equipe SET "
-				+ "nom_j1 = '"+Tournoi.mysql_real_escape_string(obj.getNomJ1())+"',"
-				+ "nom_j2 = '"+Tournoi.mysql_real_escape_string(obj.getNomJ2())+"' "
+				+ "nom_j1 = '"+ TournoiController.mysql_real_escape_string(obj.getNomJ1())+"',"
+				+ "nom_j2 = '"+ TournoiController.mysql_real_escape_string(obj.getNomJ2())+"' "
 				+ "WHERE id_equipe = "+obj.getId()+";";
 		try {
 			statement.executeUpdate(query);

@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 
-public class Tournoi {
+public class TournoiController {
 
 	private final Statement statement; // TODO enlever quand toutes les DAO seront faites
 //	private final TournoiDAO tournoiDAO = TournoiDAO.getInstance(); // TODO à faire
@@ -29,13 +29,13 @@ public class Tournoi {
 	private List<Equipe> list_equipe;
 	private List<MatchM> list_match;
 
-	public Tournoi(String nom) {
+	public TournoiController(String nom) {
 		this.statement = Belote.statement; // TODO enlever
 
 		this.nom = nom;
 
 		try {
-			ResultSet rs = statement.executeQuery("SELECT * FROM tournoi WHERE nom_tournoi = '" + Tournoi.mysql_real_escape_string(nom) + "';");
+			ResultSet rs = statement.executeQuery("SELECT * FROM tournoi WHERE nom_tournoi = '" + mysql_real_escape_string(nom) + "';");
 			if (!rs.next()) {
 				return;
 			}
@@ -215,7 +215,7 @@ public class Tournoi {
 		System.out.println("Nombre de tours  : " + nbt);
 		StringBuilder req = new StringBuilder("INSERT INTO match ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n");
 		Vector<Vector<MatchM>> ms;
-		ms = Tournoi.getMatchsToDo(getNbEquipes(), nbt);
+		ms = getMatchsToDo(getNbEquipes(), nbt);
 		int z = 1;
 		char v = ' ';
 		assert ms != null;
@@ -349,7 +349,7 @@ public class Tournoi {
 		if (nbtoursav == 0) {
 			Vector<MatchM> ms;
 
-			ms = Objects.requireNonNull(Tournoi.getMatchsToDo(getNbEquipes(), nbtoursav + 1)).lastElement();
+			ms = getMatchsToDo(getNbEquipes(), nbtoursav + 1).lastElement();
 
 			StringBuilder req = new StringBuilder("INSERT INTO match ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n");
 			char v = ' ';

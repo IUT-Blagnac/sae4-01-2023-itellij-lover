@@ -1,6 +1,6 @@
 package com.github.itellijlover.vue;
 
-import com.github.itellijlover.Tournoi;
+import com.github.itellijlover.TournoiController;
 import com.github.itellijlover.dialog.DialogMatch;
 import com.github.itellijlover.model.Equipe;
 import com.github.itellijlover.model.MatchM;
@@ -51,7 +51,7 @@ public class Fenetre extends JFrame {
 	private final static String MATCHS   = "Matchs";
 	private final static String RESULTATS= "Resultats";
 
-	private Tournoi t = null;
+	private TournoiController t = null;
 
     private final JLabel statut_slect;
 
@@ -250,17 +250,17 @@ public class Fenetre extends JFrame {
 	        }
 
 	        creerTournoi.addActionListener( e -> {
-				Tournoi.creerTournoi();
+				TournoiController.creerTournoi();
 				tracer_select_tournoi();
 			});
 
 	        deleteTournoi.addActionListener( e -> {
-				Tournoi.deleteTournoi(list.getSelectedValue());
+				TournoiController.deleteTournoi(list.getSelectedValue());
 				tracer_select_tournoi();
 			});
 	        selectTournoi.addActionListener( arg0 -> {
 				String nt = list.getSelectedValue();
-				this.t = new Tournoi(nt);
+				this.t = new TournoiController(nt);
 				tracer_details_tournoi();
 				setStatutSelect("Tournoi \" " + nt + " \"");
 			});
