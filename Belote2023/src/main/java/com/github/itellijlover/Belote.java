@@ -31,6 +31,11 @@ public class Belote {
 		}
 	}
 
+	/**
+	 * Importe un schéma SQL dans la base de données.
+	 * @param st L'objet Statement utilisé pour exécuter les requêtes.
+	 * @param in Le fichier SQL contenant le schéma à importer.
+	 */
 	public static void importSQL(Statement st, File in) {
 		try (Scanner s = new Scanner(in)) {
 			s.useDelimiter("(;(\r)?\n)|(--\n)");
