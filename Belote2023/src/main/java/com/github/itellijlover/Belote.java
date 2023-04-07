@@ -32,12 +32,12 @@ public class Belote {
 			Fenetre f = new Fenetre(statement);
 			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Impossible de se connecter à la base de données. Vérifiez qu'une autre instance du logiciel n'est pas déjà ouverte.");
-			System.out.println(e.getMessage());
+			Fenetre.afficherErreur("Impossible de se connecter à la base de données. Vérifiez qu'une autre instance du logiciel n'est pas déjà ouverte.");
+			System.out.println(e.getMessage()); // pour le développeur
 			System.exit(0);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Erreur lors de l'initialisation du logiciel. Vérifiez votre installation Java et vos droits d'accès sur le dossier AppData.");
-			System.out.println(e.getMessage());
+			Fenetre.afficherErreur("Erreur lors de l'initialisation du logiciel. Vérifiez votre installation Java et vos droits d'accès sur le dossier AppData.");
+			System.out.println(e.getMessage()); // pour le développeur
 			System.exit(0);
 		}
 	}
@@ -59,7 +59,7 @@ public class Belote {
 				}
 			}
 		} catch (SQLException | FileNotFoundException e) {
-			System.out.println("Erreur lors de l'import du schéma SQL : " + e.getMessage());
+			Fenetre.afficherErreur("Erreur lors de l'import du schéma SQL : " + e.getMessage());
 		}
 	}
 }
