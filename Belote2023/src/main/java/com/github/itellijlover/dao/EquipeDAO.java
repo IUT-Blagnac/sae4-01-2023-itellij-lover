@@ -25,6 +25,11 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 		return instance;
 	}
 
+	/**
+	 * Ajoute une nouvelle équipe dans la base de données.
+	 *
+	 * @param obj L'équipe à ajouter.
+	 */
 	public void add(Equipe obj) {
 		String query = "INSERT INTO equipe VALUES (NULL,"
 				+ obj.getNum()+","
@@ -39,6 +44,11 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 		}
 	}
 
+	/**
+	 * Met à jour une équipe existante dans la base de données.
+	 *
+	 * @param obj L'équipe à mettre à jour.
+	 */
 	public void update(Equipe obj) {
 		String query = "UPDATE equipe SET "
 				+ "nom_j1 = '"+ TournoiController.mysql_real_escape_string(obj.getNomJ1())+"',"
@@ -52,6 +62,11 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 		}
 	}
 
+	/**
+	 * Supprime une équipe de la base de données en fonction de son identifiant.
+	 *
+	 * @param id L'identifiant de l'équipe à supprimer.
+	 */
 	public void delete(int id) {
 		String query = "DELETE FROM equipe WHERE id_equipe = " + id;
 		try {
@@ -62,6 +77,12 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 		}
 	}
 
+	/**
+	 * Récupère une équipe de la base de données en fonction de son identifiant.
+	 *
+	 * @param id L'identifiant de l'équipe à récupérer.
+	 * @return L'équipe récupérée, ou null si elle n'existe pas.
+	 */
 	public Equipe get(int id) {
 		Equipe equipe = null;
 
@@ -86,6 +107,11 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 		return equipe;
 	}
 
+	/**
+	 * Récupère toutes les équipes de la base de données.
+	 *
+	 * @return La liste de toutes les équipes.
+	 */
 	public List<Equipe> getAll() {
 		List<Equipe> list_equipe = new Vector<>();
 
@@ -110,6 +136,12 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 		return list_equipe;
 	}
 
+	/**
+	 * Récupère toutes les équipes d'un tournoi donné, triées par numéro d'équipe croissant.
+	 *
+	 * @param id_tournoi L'identifiant du tournoi pour lequel récupérer les équipes.
+	 * @return La liste des équipes du tournoi donné, triées par numéro d'équipe croissant.
+	 */
 	public List<Equipe> getFromTournoi(int id_tournoi) {
 		List<Equipe> list_equipe = new Vector<>();
 
