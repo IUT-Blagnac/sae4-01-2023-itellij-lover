@@ -3,7 +3,7 @@ package com.github.itellijlover.vue;
 import com.github.itellijlover.TournoiController;
 import com.github.itellijlover.dialog.DialogMatch;
 import com.github.itellijlover.model.Equipe;
-import com.github.itellijlover.model.MatchM;
+import com.github.itellijlover.model.Match;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -547,7 +547,7 @@ public class Fenetre extends JFrame {
 					Object r=null;
 					switch(arg1){
 					case 0:
-						r= t.getMatch(arg0).getNum_tour();
+						r= t.getMatch(arg0).getNumTour();
 					break;
 					case 1:
 						r= t.getMatch(arg0).getEq1();
@@ -591,10 +591,10 @@ public class Fenetre extends JFrame {
 					return 5;
 				}
 				public boolean isCellEditable(int x, int y) {
-					return y > 2 && t.getMatch(x).getNum_tour() == t.getNbTours();
+					return y > 2 && t.getMatch(x).getNumTour() == t.getNbTours();
 				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-					MatchM m = t.getMatch(rowIndex);
+					Match m = t.getMatch(rowIndex);
 					int sco;
 					if (columnIndex == 3) {
 						try {

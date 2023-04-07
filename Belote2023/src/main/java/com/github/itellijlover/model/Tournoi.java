@@ -10,7 +10,7 @@ public class Tournoi {
     private String statut_en_string; // TODO inutile ?
 
     private List<Equipe> list_equipe;
-    private List<MatchM> list_match;
+    private List<Match> list_match;
 
     public Tournoi(String nom) {
         nom_tournoi = nom;
@@ -48,11 +48,11 @@ public class Tournoi {
         this.list_equipe = list_equipe;
     }
 
-    public List<MatchM> getList_match() {
+    public List<Match> getList_match() {
         return list_match;
     }
 
-    public void setList_match(List<MatchM> list_match) {
+    public void setList_match(List<Match> list_match) {
         this.list_match = list_match;
     }
 }

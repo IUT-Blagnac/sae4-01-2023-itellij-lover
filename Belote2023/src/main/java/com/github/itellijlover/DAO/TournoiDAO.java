@@ -11,6 +11,17 @@ import java.util.List;
  */
 public class TournoiDAO extends FactoryDB implements DAO<Tournoi> {
 
+	private static TournoiDAO instance;
+
+	private TournoiDAO() {
+		instance = this;
+	}
+
+	public static TournoiDAO getInstance() {
+		if (instance == null) new TournoiDAO();
+		return instance;
+	}
+
 	public void add(Tournoi obj) {
 	}
 

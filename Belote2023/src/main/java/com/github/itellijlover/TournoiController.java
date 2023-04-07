@@ -1,25 +1,25 @@
 package com.github.itellijlover;
 
 import com.github.itellijlover.DAO.EquipeDAO;
+import com.github.itellijlover.DAO.MatchDAO;
+import com.github.itellijlover.DAO.TournoiDAO;
 import com.github.itellijlover.model.Equipe;
-import com.github.itellijlover.model.MatchM;
+import com.github.itellijlover.model.Match;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 
 public class TournoiController {
 
 	private final Statement statement; // TODO enlever quand toutes les DAO seront faites
-//	private final TournoiDAO tournoiDAO = TournoiDAO.getInstance(); // TODO à faire
+	private final TournoiDAO tournoiDAO = TournoiDAO.getInstance(); // TODO à faire
 	private final EquipeDAO equipeDAO = EquipeDAO.getInstance();
-//	private final MatchDAO matchDAO = MatchDAO.getInstance(); // TODO à faire
-//	private final TourDAO tourDAO = TourDAO.getInstance(); // TODO à faire
+	private final MatchDAO matchDAO = MatchDAO.getInstance(); // TODO à faire
 
 	private int id;
 	private final String nom;
@@ -27,7 +27,7 @@ public class TournoiController {
 	private String statut_en_string; // TODO inutile ?
 
 	private List<Equipe> list_equipe;
-	private List<MatchM> list_match;
+	private List<Match> list_match;
 
 	public TournoiController(String nom) {
 		this.statement = Belote.statement; // TODO enlever
@@ -214,13 +214,13 @@ public class TournoiController {
 		System.out.println("Nombre d'équipes : " + getNbEquipes());
 		System.out.println("Nombre de tours  : " + nbt);
 		StringBuilder req = new StringBuilder("INSERT INTO match ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n");
-		Vector<Vector<MatchM>> ms;
+		Vector<Vector<Match>> ms;
 		ms = getMatchsToDo(getNbEquipes(), nbt);
 		int z = 1;
 		char v = ' ';
 		assert ms != null;
-		for (Vector<MatchM> t : ms) {
-			for (MatchM m:t) {
+		for (Vector<Match> t : ms) {
+			for (Match m:t) {
 				req.append(v).append("(NULL,").append(id).append(", ").append(z).append(", ").append(m.getEq1()).append(", ").append(m.getEq2()).append(", 'non')");
 				v = ',';
 			}
@@ -242,7 +242,7 @@ public class TournoiController {
 		try {
 			ResultSet rs= statement.executeQuery("SELECT * FROM match WHERE id_tournoi="+ id + ";");
 			while (rs.next()) {
-				list_match.add(new MatchM(rs.getInt("id_match"), rs.getInt("equipe1"), rs.getInt("equipe2"), rs.getInt("score1"), rs.getInt("score2"), rs.getInt("num_tour")));
+				list_match.add(new Match(rs.getInt("id_match"), rs.getInt("equipe1"), rs.getInt("equipe2"), rs.getInt("score1"), rs.getInt("score2"), rs.getInt("num_tour")));
 			}
 			rs.close();
 		} catch (SQLException e) {
@@ -253,7 +253,7 @@ public class TournoiController {
 	public void majMatch(int index) {
 		String termine = (getMatch(index).getScore1() > 0 || getMatch(index).getScore2() > 0) ? "oui":"non";
 		System.out.println(termine);
-		String req = "UPDATE match SET equipe1='" + getMatch(index).getEq1() + "', equipe2='" + getMatch(index).getEq2() + "',  score1='" + getMatch(index).getScore1() + "',  score2='" +getMatch(index).getScore2() + "', termine='" + termine + "' WHERE id_match = " + getMatch(index).getIdmatch() + ";";
+		String req = "UPDATE match SET equipe1='" + getMatch(index).getEq1() + "', equipe2='" + getMatch(index).getEq2() + "',  score1='" + getMatch(index).getScore1() + "',  score2='" +getMatch(index).getScore2() + "', termine='" + termine + "' WHERE id_match = " + getMatch(index).getId() + ";";
 		try {
 			statement.executeUpdate(req);
 		} catch (SQLException e) {
@@ -262,12 +262,12 @@ public class TournoiController {
 		majMatch();
 	}
 
-	public MatchM getMatch(int index) {
+	public Match getMatch(int index) {
 		if (list_match == null) majMatch();
 		return list_match.get(index);
 	}
 
-	public static Vector<Vector<MatchM>> getMatchsToDo(int nbJoueurs, int nbTours) {
+	public static Vector<Vector<Match>> getMatchsToDo(int nbJoueurs, int nbTours) {
 		if (nbTours  >= nbJoueurs) {
 			System.out.println("Erreur tours < equipes");
 			return null;
@@ -292,9 +292,9 @@ public class TournoiController {
 		boolean quitter;
 		int i, increment = 1, temp;
 
-		Vector<Vector<MatchM>> retour = new Vector<>();
+		Vector<Vector<Match>> retour = new Vector<>();
 
-		Vector<MatchM> vm;
+		Vector<Match> vm;
 
 		for (int r = 1; r <= nbTours;r++) {
 			if (r > 1) {
@@ -309,7 +309,7 @@ public class TournoiController {
 			vm = new Vector<>();
 			while (!quitter) {
 				if (tabJoueurs[i] != -1 && tabJoueurs[nbJoueurs - 1  - i] != -1) {
-					vm.add(new MatchM(tabJoueurs[i], tabJoueurs[nbJoueurs - 1  - i]));
+					vm.add(new Match(tabJoueurs[i], tabJoueurs[nbJoueurs - 1  - i]));
 				}
 				// Sinon : Nombre impair de joueur, le joueur n'a pas d'adversaire
 				i += increment;
@@ -347,13 +347,13 @@ public class TournoiController {
 		System.out.println("Nombre de tours avant:" + nbtoursav);
 
 		if (nbtoursav == 0) {
-			Vector<MatchM> ms;
+			Vector<Match> ms;
 
 			ms = getMatchsToDo(getNbEquipes(), nbtoursav + 1).lastElement();
 
 			StringBuilder req = new StringBuilder("INSERT INTO match ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n");
 			char v = ' ';
-			for (MatchM m:ms) {
+			for (Match m:ms) {
 				req.append(v).append("(NULL,").append(id).append(", ").append(nbtoursav + 1).append(", ").append(m.getEq1()).append(", ").append(m.getEq2()).append(", 'non')");
 				v = ',';
 			}
