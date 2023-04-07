@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 
+/**
+ * Classe gérant un tournoi
+ */
 public class TournoiController {
 
 	private final Statement statement; // TODO enlever quand toutes les DAO seront faites
@@ -152,6 +155,9 @@ public class TournoiController {
 
 	// Gestion équipes
 
+	/**
+	 * Ajoute une équipe par défaut au tournoi
+	 */
 	public void addEquipe() {
 		int num_new_equipe = list_equipe.size()+1;
 
@@ -175,6 +181,10 @@ public class TournoiController {
 		list_equipe.add(equipe);
 	}
 
+	/**
+	 * Met à jour une équipe en fonction de l'index dans la liste d'équipes
+	 * @param index index de l'équipe à mettre à jour dans la liste d'équipes
+	 */
 	public void updateEquipe(int index) {
 		Equipe equipe = list_equipe.get(index);
 		equipeDAO.update(equipe);
@@ -182,6 +192,10 @@ public class TournoiController {
 		list_equipe.add(equipe);
 	}
 
+	/**
+	 * Supprime une équipe du tournoi en fonction de son identifiant
+	 * @param id_equipe identifiant de l'équipe
+	 */
 	public void deleteEquipe(int id_equipe) {
 		for (Equipe e : list_equipe) {
 			if (e.getId() == id_equipe) {
@@ -192,15 +206,26 @@ public class TournoiController {
 		}
 	}
 
+	/**
+	 * Récupère une équipe de la liste d'équipe en fonction de l'index
+	 * @param index index de l'équipe à récupérer
+	 * @return l'équipe correspondant à l'index
+	 */
 	public Equipe getEquipe(int index) {
 		if (list_equipe == null) getEquipes();
 		return list_equipe.get(index);
 	}
 
+	/**
+	 * Stock toutes les équipes correspondant au tournoi dans la liste d'équipes
+	 */
 	public void getEquipes() {
 		list_equipe = equipeDAO.getFromTournoi(id);
 	}
 
+	/**
+	 * @return le nombre d'équipes du tournoi
+	 */
 	public int getNbEquipes() {
 		if (list_equipe == null) getEquipes();
 		return list_equipe.size();
