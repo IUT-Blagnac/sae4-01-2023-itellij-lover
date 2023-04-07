@@ -13,7 +13,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Vector;
 
 import javax.swing.*;
@@ -24,7 +23,6 @@ public class Fenetre extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private final JPanel c;
-	private final Statement s;
 
 	private JList<String> list;
 	private JButton selectTournoi;
@@ -55,8 +53,7 @@ public class Fenetre extends JFrame {
 
     private final JLabel statut_slect;
 
-	public Fenetre(Statement st) {
-		s = st;
+	public Fenetre() {
 		setTitle("Gestion de tournoi de Belote");
 		setSize(800,400);
 		setVisible(true);
