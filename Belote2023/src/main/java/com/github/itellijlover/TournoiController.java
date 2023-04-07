@@ -3,6 +3,7 @@ package com.github.itellijlover;
 import com.github.itellijlover.DAO.EquipeDAO;
 import com.github.itellijlover.DAO.MatchDAO;
 import com.github.itellijlover.DAO.TournoiDAO;
+import com.github.itellijlover.db.DatabaseConnection;
 import com.github.itellijlover.model.Equipe;
 import com.github.itellijlover.model.Match;
 
@@ -30,7 +31,7 @@ public class TournoiController {
 	private List<Match> list_match;
 
 	public TournoiController(String nom) {
-		this.statement = Belote.statement; // TODO enlever
+		this.statement = DatabaseConnection.getInstance().getStatement(); // TODO enlever
 
 		this.nom = nom;
 
@@ -90,7 +91,7 @@ public class TournoiController {
 	// Gestion tournois TODO mettre dans TournoiDAO.java
 
 	public static void creerTournoi() {
-		Statement statement = Belote.statement;
+		Statement statement = DatabaseConnection.getInstance().getStatement();
 
 		String string = JOptionPane.showInputDialog(
 				null,
@@ -129,7 +130,7 @@ public class TournoiController {
 	}
 
 	public static void deleteTournoi(String nom) {
-		Statement statement = Belote.statement;
+		Statement statement = DatabaseConnection.getInstance().getStatement();
 
 		try {
 			int idt;
