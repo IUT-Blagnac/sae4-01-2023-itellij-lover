@@ -7,6 +7,6 @@ public class FactoryDB {
     protected final Statement statement;
 
     public FactoryDB() {
-        statement = DatabaseConnection.getInstance().getStatement();
+        statement = oui.getInstance().getStatement();
     }
 }

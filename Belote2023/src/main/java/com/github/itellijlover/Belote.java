@@ -1,6 +1,6 @@
 package com.github.itellijlover;
 
-import com.github.itellijlover.db.DatabaseConnection;
+import com.github.itellijlover.db.oui;
 import com.github.itellijlover.view.Fenetre;
 
 import java.io.File;
@@ -16,7 +16,7 @@ public class Belote {
 	public static void main(String[] args) {
 		try {
 			// se connecter à la base de données
-			Statement statement = DatabaseConnection.getInstance().getStatement();
+			Statement statement = oui.getInstance().getStatement();
 
 			// importer le schéma SQL à partir d'un fichier
 			importSQL(statement, new File("create.sql"));

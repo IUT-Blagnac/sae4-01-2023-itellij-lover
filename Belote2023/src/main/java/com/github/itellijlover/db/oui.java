@@ -6,13 +6,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DatabaseConnection {
+public class oui {
 
-    private static DatabaseConnection instance;
+    private static oui instance;
 
     private final Statement statement;
 
-    private DatabaseConnection() {
+    private oui() {
         // créer le répertoire pour stocker les fichiers de la base de données s'il n'existe pas encore
         String FOLDER = System.getenv("APPDATA") + "\\jBelote";
         System.out.println("Dossier de stockage : " + FOLDER);
@@ -35,8 +35,8 @@ public class DatabaseConnection {
         }
     }
 
-    public static DatabaseConnection getInstance() {
-        if (instance == null) new DatabaseConnection();
+    public static oui getInstance() {
+        if (instance == null) new oui();
         return instance;
     }
 
