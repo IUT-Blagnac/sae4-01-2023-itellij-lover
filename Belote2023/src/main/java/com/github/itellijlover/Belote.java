@@ -1,6 +1,6 @@
 package com.github.itellijlover;
 
-import com.github.itellijlover.db.DatabaseSingleton;
+import com.github.itellijlover.db.DatabaseConnection;
 import com.github.itellijlover.vue.Fenetre;
 
 import java.io.File;
@@ -15,22 +15,17 @@ import javax.swing.JOptionPane;
 
 public class Belote {
 
-	public static Statement statement;
-
 	public static void main(String[] args) {
-		Connection connection;
-
 		try {
-			// Se connecter à la base de données
-			connection = DatabaseSingleton.getInstance().getConnection();
-			statement = connection.createStatement();
+			// se connecter à la base de données
+			Connection connection = DatabaseConnection.getInstance().getStatement().getConnection();
 
-			// Importer le schéma SQL à partir d'un fichier
+			// importer le schéma SQL à partir d'un fichier
 			importSQL(connection, new File("create.sql"));
 
-			// Interface graphique
-			Fenetre f = new Fenetre(statement);
-			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			// interface graphique
+			Fenetre fenetre = new Fenetre();
+			fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Impossible de se connecter à la base de données. Vérifiez qu'une autre instance du logiciel n'est pas déjà ouverte.");
 			System.out.println(e.getMessage());
