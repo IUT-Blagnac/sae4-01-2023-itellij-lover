@@ -101,6 +101,7 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 
 			rs.close();
 		} catch (SQLException e) {
+			System.out.println(query);
 			e.printStackTrace();
 		}
 
@@ -130,6 +131,7 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 
 			rs.close();
 		} catch (SQLException e) {
+			System.out.println(query);
 			e.printStackTrace();
 		}
 
@@ -162,6 +164,7 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 
 			rs.close();
 		} catch (SQLException e) {
+			System.out.println(query);
 			e.printStackTrace();
 		}
 
