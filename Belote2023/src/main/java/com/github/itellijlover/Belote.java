@@ -26,8 +26,8 @@ public class Belote {
 			fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		} catch (Exception e) {
 			Fenetre.afficherErreur("Erreur lors de l'initialisation du logiciel. Vérifiez votre installation Java et vos droits d'accès sur le dossier AppData.");
-			System.out.println(e.getMessage()); // pour le développeur
-			System.exit(0);
+			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 
@@ -52,6 +52,7 @@ public class Belote {
 			}
 		} catch (SQLException | FileNotFoundException e) {
 			Fenetre.afficherErreur("Erreur lors de l'import du schéma SQL : " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 }

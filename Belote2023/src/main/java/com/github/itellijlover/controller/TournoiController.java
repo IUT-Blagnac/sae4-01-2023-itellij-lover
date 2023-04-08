@@ -48,7 +48,6 @@ public class TournoiController {
 			rs.close();
 
 		} catch (SQLException e) {
-			System.out.println("Erreur SQL : " + e.getMessage());
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -121,10 +120,8 @@ public class TournoiController {
 						JOptionPane.showMessageDialog(null, "Le tournoi n'a pas été créé. Un tournoi du même nom existe déjà");
 						return;
 					}
-					System.out.println("INSERT INTO tournoi (id_tournoi, nb_matchs, nom_tournoi, statut) VALUES (NULL, 10, '"+string+"', 0)");
 					statement.executeUpdate("INSERT INTO tournoi (id_tournoi, nb_matchs, nom_tournoi, statut) VALUES (NULL, 10, '"+string+"', 0)");
 				} catch (SQLException e) {
-					System.out.println("Erreur requete insertion nouveau tournoi:" + e.getMessage());
 					e.printStackTrace();
 				}
 			}
@@ -140,14 +137,11 @@ public class TournoiController {
 			rs.next();
 			idt = rs.getInt(1);
 			rs.close();
-			System.out.println("ID du tournoi à supprimer:" + idt);
 			statement.executeUpdate("DELETE FROM match   WHERE id_tournoi = " + idt);
 			statement.executeUpdate("DELETE FROM equipe  WHERE id_tournoi = " + idt);
 			statement.executeUpdate("DELETE FROM tournoi WHERE id_tournoi = " + idt);
-		} catch (SQLException e) {
-			System.out.println("Erreur suppression" + e.getMessage());
 		} catch (Exception e) {
-			System.out.println("Erreur inconnue");
+			e.printStackTrace();
 		}
 	}
 
@@ -237,7 +231,6 @@ public class TournoiController {
 	 * Génère les matchs du premier tour du tournoi, en fonciton du nombre d'équipe
 	 */
 	public void genererMatchs() {
-		System.out.println("Nombre d'équipes : " + getNbEquipes());
 		List<List<Match>> matchs = genererMatchsToDo(getNbEquipes(), 1);
 		matchDAO.addAll(matchs, id);
 		statut_en_int = 2;
@@ -349,17 +342,15 @@ public class TournoiController {
 		// Recherche du nombre de tours actuel
 		int nbtoursav;
 		if (getNbTours() >= (getNbEquipes() -1)) return;
-		System.out.println("Eq:" + getNbEquipes() + "  tours" + getNbTours());
 		try {
 			ResultSet rs = statement.executeQuery("SELECT MAX (num_tour) FROM match WHERE id_tournoi="+id);
 			rs.next();
 			nbtoursav = rs.getInt(1);
 			rs.close();
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 			return;
 		}
-		System.out.println("Nombre de tours avant : " + nbtoursav);
 
 		if (nbtoursav == 0) {
 			List<List<Match>> matchs = genererMatchsToDo(getNbEquipes(), nbtoursav + 1);
@@ -377,7 +368,7 @@ public class TournoiController {
 			try {
 				statement.executeUpdate(query.toString());
 			} catch(SQLException e) {
-				System.out.println("Erreur ajout tour : " + e.getMessage());
+				e.printStackTrace();
 			}
 		} else {
 			try {
@@ -387,18 +378,14 @@ public class TournoiController {
 				ArrayList<Integer> ordreeq= new ArrayList<>();
 				while (rs.next()) {
 					ordreeq.add(rs.getInt("equipe"));
-					System.out.println(rs.getInt(1) +" _ " + rs.getString(2));
 				}
-				System.out.println("Taille"+ordreeq.size());
 				int i;
 				boolean fini;
 				StringBuilder query = new StringBuilder("INSERT INTO match ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n");
 				char virgule = ' ';
 				while (ordreeq.size() > 1) {
-					System.out.println("Taille " + ordreeq.size());
 					int j = 0;
 					while (j < ordreeq.size()) {
-						System.out.println(ordreeq.get(j));
 						j++;
 					}
 					i = 1;
@@ -413,14 +400,12 @@ public class TournoiController {
 						} else {
 							fini = true;
 							query.append(virgule).append("(NULL,").append(id).append(", ").append(nbtoursav + 1).append(", ").append(ordreeq.get(0)).append(", ").append(ordreeq.get(i)).append(", 'non')");
-							System.out.println(ordreeq.get(0) + ", " +  ordreeq.get(i));
 							ordreeq.remove(0);
 							ordreeq.remove(i-1);
 							virgule = ',';
 						}
 					} while(!fini);
 				}
-				System.out.println(query);
 				statement.executeUpdate(query.toString());
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -441,7 +426,6 @@ public class TournoiController {
 			rs.close();
 			matchDAO.deleteFromTournoiAndNumTour(id, num_tour);
 		} catch (SQLException e) {
-			System.out.println(query);
 			e.printStackTrace();
 		}
 	}

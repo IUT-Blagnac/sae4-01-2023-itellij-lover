@@ -199,6 +199,7 @@ public class Fenetre extends JFrame {
 			rs.close();
 		} catch (SQLException e) {
 			afficherErreur("Erreur lors de la requète :" + e.getMessage());
+			e.printStackTrace();
 		}
 		
 		if (tournois_trace) {
@@ -661,7 +662,7 @@ public class Fenetre extends JFrame {
 			}
 		} catch (SQLException e) {
 			afficherErreur("Erreur lors de la récupération des résultats du match de ce tournoi");
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		Vector<String> columnNames = new Vector<>();
 		columnNames.add("Numéro d'équipe");

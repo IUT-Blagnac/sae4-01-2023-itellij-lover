@@ -64,7 +64,7 @@ public class MatchDAO extends FactoryDB implements DAO<Match> {
 			statement.executeUpdate(query);
 		} catch(SQLException e) {
 			System.out.println(query);
-			System.out.println("Erreur validation équipes : " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
