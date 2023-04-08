@@ -31,7 +31,7 @@ public class TournamentManager {
 	private List<Match> list_match;
 
 	public TournamentManager(String nom) {
-		this.statement = DatabaseConnection.getInstance().getStatement();
+		statement = DatabaseConnection.getInstance().getStatement();
 
 		this.nom = nom;
 
@@ -40,16 +40,16 @@ public class TournamentManager {
 			if (!rs.next()) {
 				return;
 			}
-			this.id = rs.getInt("id_tournoi");
+			id = rs.getInt("id_tournoi");
 
-			this.statut_en_int = rs.getInt("statut");
+			statut_en_int = rs.getInt("statut");
 			rs.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		switch (this.statut_en_int) {
+		switch (statut_en_int) {
 			case 0:
 				statut_en_string = "Inscription des joueurs";
 				break;
@@ -371,7 +371,7 @@ public class TournamentManager {
 		} else {
 			try {
 				ResultSet rs;
-				rs = statement.executeQuery("SELECT equipe, (SELECT count(*) FROM match m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes FROM  (select equipe1 as equipe,score1 as score from match where id_tournoi=" + this.id + " UNION select equipe2 as equipe,score2 as score from match where id_tournoi=" + this.id + ") GROUP BY equipe  ORDER BY matchs_gagnes DESC;");
+				rs = statement.executeQuery("SELECT equipe, (SELECT count(*) FROM match m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes FROM  (select equipe1 as equipe,score1 as score from match where id_tournoi=" + id + " UNION select equipe2 as equipe,score2 as score from match where id_tournoi=" + id + ") GROUP BY equipe  ORDER BY matchs_gagnes DESC;");
 
 				ArrayList<Integer> ordreeq= new ArrayList<>();
 				while (rs.next()) {

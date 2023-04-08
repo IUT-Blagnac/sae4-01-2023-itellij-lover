@@ -276,7 +276,7 @@ public class Window extends JFrame {
 			});
 	        selectTournoi.addActionListener( arg0 -> {
 				String nt = list.getSelectedValue();
-				this.tournoi = new TournamentManager(nt);
+				tournoi = new TournamentManager(nt);
 				tracer_details_tournoi();
 				setStatutSelect("Tournoi \" " + nt + " \"");
 			});
