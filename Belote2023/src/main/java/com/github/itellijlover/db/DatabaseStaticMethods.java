@@ -1,16 +1,15 @@
-package com.github.itellijlover.dialog;
+package com.github.itellijlover.db;
 
 import com.github.itellijlover.db.DatabaseConnection;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * TODO à transformer en DAO
+ * Classe pour des méthodes static utilisées par Windola classe
  */
-public class DialogMatch {
+public class DatabaseStaticMethods {
 
     public static ResultSet getTournois() throws SQLException {
         Statement statement = DatabaseConnection.getInstance().getStatement();

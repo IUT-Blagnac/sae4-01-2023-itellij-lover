@@ -1,7 +1,7 @@
 package com.github.itellijlover.view;
 
 import com.github.itellijlover.TournamentManager;
-import com.github.itellijlover.dialog.DialogMatch;
+import com.github.itellijlover.db.DatabaseStaticMethods;
 import com.github.itellijlover.model.Equipe;
 import com.github.itellijlover.model.Match;
 
@@ -164,7 +164,7 @@ public class Window extends JFrame {
 
 				int total, termines;
 				try {
-					ResultSet rs = DialogMatch.getMatchTermines(tournoi.getId());
+					ResultSet rs = DatabaseStaticMethods.getMatchTermines(tournoi.getId());
 					rs.next();
 					total    = rs.getInt(1);
 					termines = rs.getInt(2);
@@ -189,7 +189,7 @@ public class Window extends JFrame {
         setStatutSelect("sélection d'un tournoi");
 		ResultSet rs;
 		try {
-			rs = DialogMatch.getTournois();
+			rs = DatabaseStaticMethods.getTournois();
 
 			while (rs.next()) {
 				nbdeLignes++;
@@ -458,7 +458,7 @@ public class Window extends JFrame {
 		Vector<Object> v;
 		boolean peutajouter = true;
 		try {
-			ResultSet rs = DialogMatch.getToursParMatch(tournoi.getId());
+			ResultSet rs = DatabaseStaticMethods.getToursParMatch(tournoi.getId());
 			while (rs.next()) {
 				v = new Vector<>();
 				v.add(rs.getInt("num_tour"));
@@ -649,7 +649,7 @@ public class Window extends JFrame {
 		Vector<Vector<Object>> to = new Vector<>();
 		Vector<Object> v;
 		try {
-			ResultSet rs = DialogMatch.getResultMatch(tournoi.getId());
+			ResultSet rs = DatabaseStaticMethods.getResultMatch(tournoi.getId());
 			while(rs.next()){
 				v = new Vector<>();
 				v.add(rs.getInt("equipe"));
@@ -703,7 +703,7 @@ public class Window extends JFrame {
 	private void majStatutM() {
 		int total, termines;
 		try {
-			ResultSet rs = DialogMatch.getMatchTermines(tournoi.getId());
+			ResultSet rs = DatabaseStaticMethods.getMatchTermines(tournoi.getId());
 			rs.next();
 			total    = rs.getInt(1);
 			termines = rs.getInt(2);
