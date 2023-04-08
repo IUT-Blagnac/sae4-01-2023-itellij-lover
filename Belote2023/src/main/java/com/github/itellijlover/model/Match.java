@@ -12,30 +12,30 @@ public class Match {
 	/**
 	 * Constructeur d'un match avec score.
 	 *
-	 * @param _idmatch : l'identifiant du match.
-	 * @param _e1      : l'identifiant de la première équipe.
-	 * @param _e2      : l'identifiant de la deuxième équipe.
-	 * @param _score1  : le score de la première équipe.
-	 * @param _score2  : le score de la deuxième équipe.
+	 * @param id : l'identifiant du match.
+	 * @param eq1      : l'identifiant de la première équipe.
+	 * @param eq2      : l'identifiant de la deuxième équipe.
+	 * @param score1  : le score de la première équipe.
+	 * @param score2  : le score de la deuxième équipe.
 	 */
-	public Match(int _idmatch, int _e1, int _e2, int _score1, int _score2, int _num_tour) {
-		id = _idmatch;
-		num_tour = _num_tour;
-		eq1 = _e1;
-		eq2 = _e2;
-		score1 = _score1;
-		score2 = _score2;
+	public Match(int id, int eq1, int eq2, int score1, int score2, int num_tour) {
+		this.id = id;
+		this.num_tour = num_tour;
+		this.eq1 = eq1;
+		this.eq2 = eq2;
+		this.score1 = score1;
+		this.score2 = score2;
 	}
 
 	/**
 	 * Constructeur d'un match sans score.
 	 *
-	 * @param _e1 : l'identifiant de la première équipe.
-	 * @param _e2 : l'identifiant de la deuxième équipe.
+	 * @param eq1 : l'identifiant de la première équipe.
+	 * @param eq2 : l'identifiant de la deuxième équipe.
 	 */
-	public Match(int _e1, int _e2) {
-		eq1 = _e1;
-		eq2 = _e2;
+	public Match(int eq1, int eq2) {
+		this.eq1 = eq1;
+		this.eq2 = eq2;
 	}
 
 	/**
@@ -117,9 +117,9 @@ public class Match {
 	 */
 	public String toString() {
 		if (eq1 < eq2) {
-			return "  " + eq1 + " contre " + eq2;
+			return eq1 + " contre " + eq2;
 		} else {
-			return "  " + eq2 + " contre " + eq1;
+			return eq2 + " contre " + eq1;
 		}
 	}
 
