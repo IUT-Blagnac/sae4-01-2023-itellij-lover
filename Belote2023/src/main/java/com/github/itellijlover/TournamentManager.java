@@ -1,8 +1,7 @@
-package com.github.itellijlover.controller;
+package com.github.itellijlover;
 
 import com.github.itellijlover.dao.EquipeDAO;
 import com.github.itellijlover.dao.MatchDAO;
-import com.github.itellijlover.dao.TournoiDAO;
 import com.github.itellijlover.db.DatabaseConnection;
 import com.github.itellijlover.model.Equipe;
 import com.github.itellijlover.model.Match;
@@ -17,23 +16,22 @@ import javax.swing.JOptionPane;
 /**
  * Classe gérant un tournoi
  */
-public class TournoiController {
+public class TournamentManager {
 
-	private final Statement statement; // TODO enlever quand toutes les DAO seront faites
-	private final TournoiDAO tournoiDAO = TournoiDAO.getInstance(); // TODO à faire
+	private final Statement statement;
 	private final EquipeDAO equipeDAO = EquipeDAO.getInstance();
 	private final MatchDAO matchDAO = MatchDAO.getInstance();
 
 	private int id;
 	private final String nom;
 	private int statut_en_int;
-	private String statut_en_string; // TODO inutile ?
+	private String statut_en_string;
 
 	private List<Equipe> list_equipe;
 	private List<Match> list_match;
 
-	public TournoiController(String nom) {
-		this.statement = DatabaseConnection.getInstance().getStatement(); // TODO enlever
+	public TournamentManager(String nom) {
+		this.statement = DatabaseConnection.getInstance().getStatement();
 
 		this.nom = nom;
 
@@ -47,8 +45,6 @@ public class TournoiController {
 			this.statut_en_int = rs.getInt("statut");
 			rs.close();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -58,7 +54,7 @@ public class TournoiController {
 				statut_en_string = "Inscription des joueurs";
 				break;
 			case 1:
-				statut_en_string = "Génération des matchs"; // TODO jamais utilisé ?
+				statut_en_string = "Génération des matchs";
 				break;
 			case 2:
 				statut_en_string = "Matchs en cours";
@@ -89,7 +85,7 @@ public class TournoiController {
 	}
 
 
-	// Gestion tournois TODO mettre dans TournoiDAO.java
+	// Gestion tournois
 
 	public static void creerTournoi() {
 		Statement statement = DatabaseConnection.getInstance().getStatement();

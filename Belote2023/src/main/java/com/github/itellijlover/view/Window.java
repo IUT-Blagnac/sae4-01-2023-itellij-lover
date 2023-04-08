@@ -1,6 +1,6 @@
 package com.github.itellijlover.view;
 
-import com.github.itellijlover.controller.TournoiController;
+import com.github.itellijlover.TournamentManager;
 import com.github.itellijlover.dialog.DialogMatch;
 import com.github.itellijlover.model.Equipe;
 import com.github.itellijlover.model.Match;
@@ -18,7 +18,7 @@ import java.util.Vector;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 
-public class Fenetre extends JFrame {
+public class Window extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,7 @@ public class Fenetre extends JFrame {
 	private final static String MATCHS   = "Matchs";
 	private final static String RESULTATS= "Resultats";
 
-	private TournoiController tournoi = null;
+	private TournamentManager tournoi = null;
 
     private final JLabel statut_slect;
 
@@ -71,7 +71,7 @@ public class Fenetre extends JFrame {
 
 	private JScrollPane resultats_js;
 
-	public Fenetre() {
+	public Window() {
 		setTitle("Gestion de tournoi de Belote");
 		setSize(800,400);
 		setVisible(true);
@@ -266,17 +266,17 @@ public class Fenetre extends JFrame {
 	        }
 
 	        creerTournoi.addActionListener( e -> {
-				TournoiController.creerTournoi();
+				TournamentManager.creerTournoi();
 				tracer_select_tournoi();
 			});
 
 	        deleteTournoi.addActionListener( e -> {
-				TournoiController.deleteTournoi(list.getSelectedValue());
+				TournamentManager.deleteTournoi(list.getSelectedValue());
 				tracer_select_tournoi();
 			});
 	        selectTournoi.addActionListener( arg0 -> {
 				String nt = list.getSelectedValue();
-				this.tournoi = new TournoiController(nt);
+				this.tournoi = new TournamentManager(nt);
 				tracer_details_tournoi();
 				setStatutSelect("Tournoi \" " + nt + " \"");
 			});
@@ -412,8 +412,8 @@ public class Fenetre extends JFrame {
 			});
 
 			eq_supprimer.addActionListener(e -> {
-				if (Fenetre.this.eq_jt.getSelectedRow() != -1) {
-					tournoi.deleteEquipe(tournoi.getEquipe(Fenetre.this.eq_jt.getSelectedRow()).getId());
+				if (Window.this.eq_jt.getSelectedRow() != -1) {
+					tournoi.deleteEquipe(tournoi.getEquipe(Window.this.eq_jt.getSelectedRow()).getId());
 				}
 				eq_valider.setEnabled(tournoi.getNbEquipes() > 0 && tournoi.getNbEquipes() % 2 == 0) ;
 				eq_modele.fireTableDataChanged();
@@ -424,8 +424,8 @@ public class Fenetre extends JFrame {
 
 			eq_valider.addActionListener(e -> {
 				tournoi.genererMatchs();
-				Fenetre.this.majboutons();
-				Fenetre.this.tracer_tournoi_matchs();
+				Window.this.majboutons();
+				Window.this.tracer_tournoi_matchs();
 			});
 			if (tournoi.getNbEquipes() > 0) {
 				eq_jt.getSelectionModel().setSelectionInterval(0, 0);
@@ -503,11 +503,11 @@ public class Fenetre extends JFrame {
 			tours_p.add(new JLabel("Le nombre maximum de tours est \"le nombre total d'équipes - 1\""));
 			tours_ajouter.addActionListener( arg0 -> {
 				tournoi.ajouterTour();
-				Fenetre.this.tracer_tours_tournoi();
+				Window.this.tracer_tours_tournoi();
 			});
 			tours_supprimer.addActionListener( e -> {
 				tournoi.deleteLastTour();
-				Fenetre.this.tracer_tours_tournoi();
+				Window.this.tracer_tours_tournoi();
 			});
 		}
 		if (to.size() == 0) {
@@ -618,8 +618,8 @@ public class Fenetre extends JFrame {
 					}
 
 					fireTableDataChanged();
-					Fenetre.this.majStatutM();
-					Fenetre.this.majboutons();
+					Window.this.majStatutM();
+					Window.this.majboutons();
 				}
 			};
 			JTable match_jt = new JTable(match_modele);

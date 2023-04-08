@@ -1,7 +1,7 @@
 package com.github.itellijlover;
 
 import com.github.itellijlover.db.DatabaseConnection;
-import com.github.itellijlover.view.Fenetre;
+import com.github.itellijlover.view.Window;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,10 +22,10 @@ public class Belote {
 			importSQL(statement, new File("create.sql"));
 
 			// interface graphique
-			Fenetre fenetre = new Fenetre();
-			fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			Window window = new Window();
+			window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		} catch (Exception e) {
-			Fenetre.afficherErreur("Erreur lors de l'initialisation du logiciel. Vérifiez votre installation Java et vos droits d'accès sur le dossier AppData.");
+			Window.afficherErreur("Erreur lors de l'initialisation du logiciel. Vérifiez votre installation Java et vos droits d'accès sur le dossier AppData.");
 			e.printStackTrace();
 			System.exit(1);
 		}
@@ -51,7 +51,7 @@ public class Belote {
 				}
 			}
 		} catch (SQLException | FileNotFoundException e) {
-			Fenetre.afficherErreur("Erreur lors de l'import du schéma SQL : " + e.getMessage());
+			Window.afficherErreur("Erreur lors de l'import du schéma SQL : " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
