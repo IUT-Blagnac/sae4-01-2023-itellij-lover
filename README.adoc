@@ -220,19 +220,17 @@ Pleins de champs ont été transformés en variables locales car ils ne sont pas
 
 Dans cette classe nous avons utilisé les getters et setters créés, notamment pour MatchM. Nous avons aussi mit en privé les attributs pour plus de sécuritée et un getter pour `id_tournoi`.
 
-=== Mise en place d'un singleton pour la connexion a la base de données
+=== Mise en place d'un singleton pour la connexion à la base de données
 
-Nous avons créé la classe DatabaseSingleton.java afin de se connecter à la base de données. 
+Nous avons créée la classe `DatabaseSingleton.java` afin de se connecter à la base de données. 
 
-=== Fenetre d'erreur
-
-==== Fenetre
+=== Fenêtres d'erreur
 
 Création d'une méthode statique permettant d'afficher une fenêtre d'erreur avec le message souhaité, ainsi nous pouvons supprimer pas mal de retour d'erreur présents dans la console.
 
 ==== Tournoi & Belote
 
-Utilisation de Fenetre.affichererreur() pour l'affichage dans une fenêtre d'erreur.
+Utilisation de `Window.affichererreur(String)` pour l'affichage dans une fenêtre d'erreur.
 
 === Réduction de la pollution visuelle du code
 
@@ -240,11 +238,11 @@ Utilisation de Fenetre.affichererreur() pour l'affichage dans une fenêtre d'err
 
 Suppression de beaucoup de `this.` inutiles.
 
-=== Séparation de la partie BD et la partie vue du code
+=== Séparation de la partie BD à la partie vue du code
 
-==== Fenetre (Désormais Window)
+==== Window (anciennement Fenetre)
 
-Création de la classe DialogMatch afin d'y mettre toutes les méthodes pour récupérer les informations de ou des matchs dans la base de données. Utilisation de cette classe dans la classe Fenetre pour afficher les informations des matchs.
+Création de la classe `DatabaseStaticMethods` afin d'y mettre toutes les méthodes pour récupérer les informations de ou des matchs dans la base de données. Utilisation de cette classe dans la classe Window pour afficher les informations des matchs.
 
 === Tests unitaires
 
@@ -252,7 +250,11 @@ Ajout des tests unitaires pour les modèles de données, donc pour Match ainsi q
 
 === Patron MVC
 
-Séparation dans plusieurs package pour les modèles de données, donc Match, et Equipe et pour la vue, donc Window. Séparation aussi des parties SQL présente dans Window (Anciennement Fenetre)
+Séparation dans plusieurs package pour les modèles de données, donc Match et Equipe, et pour la vue, donc Window. Séparation aussi des parties SQL présente dans Window (anciennement Fenetre)
+
+=== Patron DAO
+
+Nous avons mis en place la patron Data Access Object dans un partie du projet, à savoir pour les classe modèles Equipe et Match. Ces nouvelles classes implémentent l'interface DAO qui définit des méthgode de base tel que `add()`, `update()` ou encore `get()`.
 
 === Mise à jour de la bibliothèque HSQLDB
 
@@ -270,5 +272,8 @@ Mise en place des issues pour savoir ce que l'on prévoit de faire et aussi pour
 
 ==== Pull request
 
-Mise en place de pull request et de branch autres que `main` afin de ne pas empiéter sur le travail de l'autre aussi pour ne pas à avoir à pull tout le temps et avec des risques avec la structure du programme.
+Mise en place de pull request et de branch autres que `master` afin de ne pas empiéter sur le travail de l'autre aussi pour ne pas à avoir à pull tout le temps et avec des risques avec la structure du programme.
 
+==== Commentaires
+
+Nous avons commentés les classes et méthodes importante et avons généré la Javadoc, disponible https://iut-blagnac.github.io/sae4-01-2023-itellij-lover/[ici].
