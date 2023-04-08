@@ -235,3 +235,7 @@ Création d'une méthode statique permettant d'afficher une fenêtre d'erreur av
 ==== Fenetre
 
 Suppression de beaucoup de `this.` inutiles.
+
+=== Tests unitaires
+
+Ajout des tests unitaires pour les modèles de données, donc pour Match ainsi que pour Equipe.
