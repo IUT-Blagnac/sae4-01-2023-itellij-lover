@@ -20,4 +20,4 @@ jobs:
         distribution: 'temurin'
 
     - name: Test project with Maven
-      run: mvn surefile:test --file Belote2023/pom.xml
+      run: mvn surefire:test --file Belote2023/pom.xml
