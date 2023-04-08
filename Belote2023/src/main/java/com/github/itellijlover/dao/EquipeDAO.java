@@ -6,8 +6,8 @@ import com.github.itellijlover.model.Equipe;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * Classe qui communique avec la BD pour mettre à jour les modifications des équipes
@@ -114,7 +114,7 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 	 * @return Une liste de toutes les équipes.
 	 */
 	public List<Equipe> getAll() {
-		List<Equipe> list_equipe = new Vector<>();
+		List<Equipe> list_equipe = new ArrayList<>();
 
 		String query = "SELECT * FROM equipe;";
 		try {
@@ -145,7 +145,7 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 	 * @return Une liste des équipes du tournoi donné, triées par numéro d'équipe croissant.
 	 */
 	public List<Equipe> getAllFromTournoi(int id_tournoi) {
-		List<Equipe> list_equipe = new Vector<>();
+		List<Equipe> list_equipe = new ArrayList<>();
 
 		String query = "SELECT * FROM equipe WHERE id_tournoi = "
 				+ id_tournoi

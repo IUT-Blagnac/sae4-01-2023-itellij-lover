@@ -4,8 +4,11 @@ import com.github.itellijlover.db.FactoryDB;
 import com.github.itellijlover.model.Equipe;
 import com.github.itellijlover.model.Match;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * Classe qui communique avec la BD pour mettre à jour les modifications des Matchs
@@ -80,8 +83,35 @@ public class MatchDAO extends FactoryDB implements DAO<Match> {
 		return null;
 	}
 
-	public List<Equipe> getAllFromTournoi(int id_tournoi) {
-		return null;
+	/**
+	 * Récupère tous les matchs d'un tournoi en particulier
+	 * @param id_tournoi l'identifiant du tournoi
+	 * @return tous les matchs du tournoi spécifié
+	 */
+	public List<Match> getAllFromTournoi(int id_tournoi) {
+		List<Match> list_match = new ArrayList<>();
+
+		String query = "SELECT * FROM match WHERE id_tournoi="+id_tournoi;
+		try {
+			ResultSet rs = statement.executeQuery(query);
+
+			while (rs.next()) {
+				list_match.add(new Match(
+						rs.getInt("id_match"),
+						rs.getInt("equipe1"),
+						rs.getInt("equipe2"),
+						rs.getInt("score1"),
+						rs.getInt("score2"),
+						rs.getInt("num_tour")));
+			}
+
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println(query);
+			e.printStackTrace();
+		}
+
+		return list_match;
 	}
 
 }

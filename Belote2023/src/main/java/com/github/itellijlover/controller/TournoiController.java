@@ -244,17 +244,11 @@ public class TournoiController {
 		statut_en_string = "Matchs en cours";
 	}
 
+	/**
+	 * Récupère les matchs liés au tournoi
+	 */
 	public void getMatchs() {
-		list_match = new ArrayList<>();
-		try {
-			ResultSet rs = statement.executeQuery("SELECT * FROM match WHERE id_tournoi="+ id + ";");
-			while (rs.next()) {
-				list_match.add(new Match(rs.getInt("id_match"), rs.getInt("equipe1"), rs.getInt("equipe2"), rs.getInt("score1"), rs.getInt("score2"), rs.getInt("num_tour")));
-			}
-			rs.close();
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
+		list_match = matchDAO.getAllFromTournoi(id);
 	}
 
 	public void updateMatch(int index) {
