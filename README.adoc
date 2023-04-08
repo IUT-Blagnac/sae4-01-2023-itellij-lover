@@ -232,7 +232,7 @@ Création d'une méthode statique permettant d'afficher une fenêtre d'erreur av
 
 === Réduction de la pollution visuelle du code
 
-==== Fenetre
+==== Fenetre & Tournoi 
 
 Suppression de beaucoup de `this.` inutiles.
 
@@ -243,3 +243,22 @@ Ajout des tests unitaires pour les modèles de données, donc pour Match ainsi q
 === Patron MVC
 
 Séparation dans plusieurs package pour les modèles de données, donc Match, et Equipe et pour la vue, donc Window. Séparation aussi des parties SQL présente dans Window (Anciennement Fenetre)
+
+=== Mise à jour de la bibliothèque HSQLDB
+
+Utilisation de la version 2.7.1 de HSQLDB afin de prévenir et éviter des vulnérabilités.
+
+=== Changement des mots clés en SQL
+
+Les mots clés SQL sont désormais en majuscules et les nom de table au singulier.
+
+=== Bonnes pratiques
+
+==== Issues
+
+Mise en place des issues pour savoir ce que l'on prévoit de faire et aussi pour se répartir les tâches.
+
+==== Pull request
+
+Mise en place de pull request et de branch autres que `main` afin de ne pas empiéter sur le travail de l'autre aussi pour ne pas à avoir à pull tout le temps et avec des risques avec la structure du programme.
+
