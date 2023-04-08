@@ -23,37 +23,42 @@ public class MatchDAO extends FactoryDB implements DAO<Match> {
 		return instance;
 	}
 
+	/**
+	 * Insère le match donné
+	 * @param obj le match à insérer
+	 */
 	public void add(Match obj) {
+		String query = "INSERT INTO match (id_match, id_tournoi, num_tour,"
+				+ "equipe1, equipe2, termine) VALUES (NULL,"
+				+ obj.getIdTournoi()+","
+				+ obj.getNumTour()+","
+				+ obj.getEq1()+","
+				+ obj.getEq2()+",'"
+				+ obj.getTermine()+"')";
+		try {
+			statement.executeUpdate(query);
+		} catch (SQLException e) {
+			System.out.println(query);
+			e.printStackTrace();
+		}
 	}
 
 	/**
-	 * Ajoute tout les matchs d'un tour d'un tournoi
+	 * Ajoute tous les matchs donnés
 	 * @param objs les matchs
-	 * @param id_tournoi l'identifiant qdu tournoi
+	 * @param id_tournoi l'identifiant du tournoi des matchs
 	 */
 	public void addAll(List<List<Match>> objs, int id_tournoi) {
-		StringBuilder query = new StringBuilder("INSERT INTO match (id_match, id_tournoi, num_tour, equipe1, equipe2, termine) VALUES ");
 		int num_tour = 1;
-		char virgule = ' ';
 		for (List<Match> liste_matchs : objs) {
 			for (Match match : liste_matchs) {
-				query.append(virgule)
-						.append("(NULL,")
-						.append(id_tournoi)
-						.append(", ")
-						.append(num_tour)
-						.append(", ")
-						.append(match.getEq1())
-						.append(", ")
-						.append(match.getEq2())
-						.append(", 'non')");
-				virgule = ',';
+				add(new Match(id_tournoi, num_tour, match.getEq1(), match.getEq2(), "nom"));
 			}
 			num_tour++;
 		}
+		String query = "UPDATE tournoi SET statut=2 WHERE id_tournoi="+id_tournoi;
 		try {
-			statement.executeUpdate(query.toString());
-			statement.executeUpdate("UPDATE tournoi SET statut=2 WHERE id_tournoi="+id_tournoi);
+			statement.executeUpdate(query);
 		} catch(SQLException e) {
 			System.out.println(query);
 			System.out.println("Erreur validation équipes : " + e.getMessage());
