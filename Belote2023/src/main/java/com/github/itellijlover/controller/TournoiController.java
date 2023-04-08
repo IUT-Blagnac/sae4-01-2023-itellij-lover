@@ -22,7 +22,7 @@ public class TournoiController {
 	private final Statement statement; // TODO enlever quand toutes les DAO seront faites
 	private final TournoiDAO tournoiDAO = TournoiDAO.getInstance(); // TODO à faire
 	private final EquipeDAO equipeDAO = EquipeDAO.getInstance();
-	private final MatchDAO matchDAO = MatchDAO.getInstance(); // TODO à faire
+	private final MatchDAO matchDAO = MatchDAO.getInstance();
 
 	private int id;
 	private final String nom;
@@ -231,7 +231,7 @@ public class TournoiController {
 	}
 
 
-	// Gestion matchs TODO mettre dans MacthDAO.java
+	// Gestion matchs
 
 	/**
 	 * Génère les matchs du premier tour du tournoi, en fonciton du nombre d'équipe
@@ -342,13 +342,16 @@ public class TournoiController {
 
 	// Gestion tours
 
+	/**
+	 * Ajoute un nouveau tour, créer les matchs pour le nouveau match
+	 */
 	public void ajouterTour() {
 		// Recherche du nombre de tours actuel
 		int nbtoursav;
 		if (getNbTours() >= (getNbEquipes() -1)) return;
 		System.out.println("Eq:" + getNbEquipes() + "  tours" + getNbTours());
 		try {
-			ResultSet rs = statement.executeQuery("SELECT MAX (num_tour)  FROM match WHERE id_tournoi="+ id +"; ");
+			ResultSet rs = statement.executeQuery("SELECT MAX (num_tour) FROM match WHERE id_tournoi="+id);
 			rs.next();
 			nbtoursav = rs.getInt(1);
 			rs.close();
@@ -356,14 +359,14 @@ public class TournoiController {
 			System.out.println(e.getMessage());
 			return;
 		}
-		System.out.println("Nombre de tours avant:" + nbtoursav);
+		System.out.println("Nombre de tours avant : " + nbtoursav);
 
 		if (nbtoursav == 0) {
 			List<List<Match>> matchs = genererMatchsToDo(getNbEquipes(), nbtoursav + 1);
 
 			List<Match> ms = matchs.get(matchs.size()-1);
 
-			StringBuilder query = new StringBuilder("INSERT INTO match ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n");
+			StringBuilder query = new StringBuilder("INSERT INTO match (id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n");
 			char virgule = ' ';
 			for (Match m : ms) {
 				query.append(virgule).append("(NULL,").append(id).append(", ").append(nbtoursav + 1).append(", ").append(m.getEq1()).append(", ").append(m.getEq2()).append(", 'non')");
@@ -425,35 +428,38 @@ public class TournoiController {
 		}
 	}
 
-	public void supprimerTour() {
-		int nbtoursav;
+	/**
+	 * Supprime les matchs du dernier tour
+	 */
+	public void deleteLastTour() {
+		int num_tour;
+		String query = "SELECT MAX (num_tour) FROM match WHERE id_tournoi="+id;
 		try {
-			ResultSet rs = statement.executeQuery("SELECT MAX (num_tour) FROM match WHERE id_tournoi="+ id +"; ");
+			ResultSet rs = statement.executeQuery(query);
 			rs.next();
-			nbtoursav = rs.getInt(1);
+			num_tour = rs.getInt(1);
 			rs.close();
+			matchDAO.deleteFromTournoiAndNumTour(id, num_tour);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			return ;
-		}
-
-		try {
-			statement.executeUpdate("DELETE FROM match WHERE id_tournoi="+ id +" AND num_tour=" + nbtoursav);
-		} catch (SQLException e) {
-			System.out.println("Erreur del tour : " + e.getMessage());
+			System.out.println(query);
+			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * @return le nombre de tour du tournoi ou -1 en cas d'erreur
+	 */
 	public int getNbTours() {
 		try {
-			ResultSet rs = statement.executeQuery("SELECT MAX (num_tour)  FROM match WHERE id_tournoi="+ id +"; ");
+			ResultSet rs = statement.executeQuery("SELECT MAX (num_tour) FROM match WHERE id_tournoi="+id);
 			rs.next();
 			return rs.getInt(1);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 			return -1;
 		}
 	}
+
 
 	public static String mysql_real_escape_string(String str) {
 		if (str == null) {

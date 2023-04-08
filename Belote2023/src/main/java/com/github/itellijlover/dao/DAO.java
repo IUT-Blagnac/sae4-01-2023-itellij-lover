@@ -10,8 +10,6 @@ public interface DAO<T> {
 
     public void delete(int id);
 
-    public T get(int id);
-
-    public List<T> getAll();
+    public List<T> getAllFromTournoi(int id_tournoi);
 
 }

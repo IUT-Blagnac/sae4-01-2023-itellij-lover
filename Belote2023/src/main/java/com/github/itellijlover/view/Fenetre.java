@@ -505,7 +505,7 @@ public class Fenetre extends JFrame {
 				Fenetre.this.tracer_tours_tournoi();
 			});
 			tours_supprimer.addActionListener( e -> {
-				tournoi.supprimerTour();
+				tournoi.deleteLastTour();
 				Fenetre.this.tracer_tours_tournoi();
 			});
 		}

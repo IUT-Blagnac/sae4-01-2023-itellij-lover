@@ -78,67 +78,6 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 	}
 
 	/**
-	 * Récupère une équipe de la base de données en fonction de son identifiant.
-	 *
-	 * @param id L'identifiant de l'équipe à récupérer.
-	 * @return L'équipe récupérée, ou null si elle n'existe pas.
-	 */
-	public Equipe get(int id) {
-		Equipe equipe = null;
-
-		String query = "SELECT * FROM equipe WHERE id_equipe = "+id;
-		try {
-			ResultSet rs = statement.executeQuery(query);
-
-			if (rs.next()) {
-				equipe = new Equipe(
-						rs.getInt("id_equipe"),
-						rs.getInt("num_equipe"),
-						rs.getInt("id_tournoi"),
-						rs.getString("nom_j1"),
-						rs.getString("nom_j2"));
-			}
-
-			rs.close();
-		} catch (SQLException e) {
-			System.out.println(query);
-			e.printStackTrace();
-		}
-
-		return equipe;
-	}
-
-	/**
-	 * Récupère toutes les équipes de la base de données.
-	 *
-	 * @return Une liste de toutes les équipes.
-	 */
-	public List<Equipe> getAll() {
-		List<Equipe> list_equipe = new ArrayList<>();
-
-		String query = "SELECT * FROM equipe;";
-		try {
-			ResultSet rs = statement.executeQuery(query);
-
-			while (rs.next()) {
-				list_equipe.add(new Equipe(
-						rs.getInt("id_equipe"),
-						rs.getInt("num_equipe"),
-						rs.getInt("id_tournoi"),
-						rs.getString("nom_j1"),
-						rs.getString("nom_j2")));
-			}
-
-			rs.close();
-		} catch (SQLException e) {
-			System.out.println(query);
-			e.printStackTrace();
-		}
-
-		return list_equipe;
-	}
-
-	/**
 	 * Récupère toutes les équipes d'un tournoi donné, triées par numéro d'équipe croissant.
 	 *
 	 * @param id_tournoi L'identifiant du tournoi pour lequel récupérer les équipes.

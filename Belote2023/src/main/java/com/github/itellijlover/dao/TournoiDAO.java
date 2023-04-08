@@ -31,11 +31,7 @@ public class TournoiDAO extends FactoryDB implements DAO<Tournoi> {
 	public void delete(int id) {
 	}
 
-	public Tournoi get(int id) {
-		return null;
-	}
-
-	public List<Tournoi> getAll() {
+	public List<Tournoi> getAllFromTournoi(int id_tournoi) {
 		return null;
 	}
 
