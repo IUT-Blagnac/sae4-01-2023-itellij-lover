@@ -524,7 +524,7 @@ public class Fenetre extends JFrame {
 		}
 		majboutons();
 		if (match_trace) {
-			tournoi.majMatch();
+			tournoi.getMatchs();
 			match_modele.fireTableDataChanged();
 			majStatutM();
 		} else {
@@ -597,7 +597,7 @@ public class Fenetre extends JFrame {
 						try {
 							sco = Integer.parseInt((String)aValue);
 							m.setScore1(sco);
-							tournoi.majMatch(rowIndex);
+							tournoi.updateMatch(rowIndex);
 
 						} catch(Exception e) {
 							return ;
@@ -607,7 +607,7 @@ public class Fenetre extends JFrame {
 						try {
 							sco = Integer.parseInt((String)aValue);
 							m.setScore2(sco);
-							tournoi.majMatch(rowIndex);
+							tournoi.updateMatch(rowIndex);
 
 						} catch(Exception e) {
 							return ;
