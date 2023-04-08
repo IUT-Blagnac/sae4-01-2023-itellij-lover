@@ -53,6 +53,24 @@ public class Fenetre extends JFrame {
 
     private final JLabel statut_slect;
 
+	private AbstractTableModel eq_modele;
+	private JButton eq_ajouter;
+	private JButton eq_supprimer;
+	private JButton eq_valider;
+	private JTable eq_jt;
+
+	private JScrollPane tours_js;
+
+	private JButton tours_ajouter;
+	private JButton tours_supprimer;
+
+	private AbstractTableModel match_modele;
+
+	private JLabel match_statut;
+	private JButton match_valider;
+
+	private JScrollPane resultats_js;
+
 	public Fenetre() {
 		setTitle("Gestion de tournoi de Belote");
 		setSize(800,400);
@@ -116,8 +134,8 @@ public class Fenetre extends JFrame {
 		tracer_select_tournoi();
 	}
 
-	private void setStatutSelect(String t) {
-		statut_slect.setText("Gestion de tournois de Belote v1.0 - " + t);
+	private void setStatutSelect(String statut) {
+		statut_slect.setText("Gestion de tournois de Belote v1.0 - " + statut);
 	}
 
 	private void majboutons() {
@@ -296,12 +314,6 @@ public class Fenetre extends JFrame {
 		fen.show(c, DETAIL);
 	}
 
-    private AbstractTableModel eq_modele;
-    private JButton eq_ajouter;
-    private JButton eq_supprimer;
-    private JButton eq_valider;
-    private JTable eq_jt;
-
 	private void tracer_tournoi_equipes() {
 		if (tournoi == null) {
 			return;
@@ -436,11 +448,6 @@ public class Fenetre extends JFrame {
 
 	}
 
-	private JScrollPane tours_js;
-
-	private JButton tours_ajouter;
-	private JButton tours_supprimer;
-
 	private void tracer_tours_tournoi(){
 		if (tournoi == null) {
 			return;
@@ -512,11 +519,6 @@ public class Fenetre extends JFrame {
 
 		fen.show(c, TOURS);
 	}
-
-	private AbstractTableModel match_modele;
-
-	private JLabel match_statut;
-	private JButton match_valider;
 
 	private void tracer_tournoi_matchs() {
 		if (tournoi == null) {
@@ -637,8 +639,6 @@ public class Fenetre extends JFrame {
 		fen.show(c, MATCHS);
 
 	}
-
-    private JScrollPane resultats_js;
 
 	private void tracer_tournoi_resultats() {
 		if (tournoi == null) {
