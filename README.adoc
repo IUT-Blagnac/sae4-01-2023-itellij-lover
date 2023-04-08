@@ -230,6 +230,10 @@ Nous avons créé la classe DatabaseSingleton.java afin de se connecter à la ba
 
 Création d'une méthode statique permettant d'afficher une fenêtre d'erreur avec le message souhaité, ainsi nous pouvons supprimer pas mal de retour d'erreur présents dans la console.
 
+==== Tournoi & Belote
+
+Utilisation de Fenetre.affichererreur() pour l'affichage dans une fenêtre d'erreur.
+
 === Réduction de la pollution visuelle du code
 
 ==== Fenetre & Tournoi 
