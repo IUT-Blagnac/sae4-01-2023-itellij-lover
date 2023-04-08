@@ -236,6 +236,12 @@ Création d'une méthode statique permettant d'afficher une fenêtre d'erreur av
 
 Suppression de beaucoup de `this.` inutiles.
 
+=== Séparation de la partie BD et la partie vue du code
+
+==== Fenetre (Désormais Window)
+
+Création de la classe DialogMatch afin d'y mettre toutes les méthodes pour récupérer les informations de ou des matchs dans la base de données. Utilisation de cette classe dans la classe Fenetre pour afficher les informations des matchs.
+
 === Tests unitaires
 
 Ajout des tests unitaires pour les modèles de données, donc pour Match ainsi que pour Equipe.
