@@ -69,7 +69,25 @@ public class MatchDAO extends FactoryDB implements DAO<Match> {
 		}
 	}
 
+	/**
+	 * Met à jour le match sur la BD
+	 * @param obj le match
+	 */
 	public void update(Match obj) {
+		String termine = (obj.getScore1() > 0 || obj.getScore2() > 0) ? "oui" : "non";
+		String query = "UPDATE match SET "
+				+ "equipe1=" + obj.getEq1()
+				+ ", equipe2=" + obj.getEq2()
+				+ ", score1=" + obj.getScore1()
+				+ ", score2=" +obj.getScore2()
+				+ ", termine='" + termine
+				+ "' WHERE id_match=" + obj.getId();
+		try {
+			statement.executeUpdate(query);
+		} catch (SQLException e) {
+			System.out.println(query);
+			e.printStackTrace();
+		}
 	}
 
 	public void delete(int id) {

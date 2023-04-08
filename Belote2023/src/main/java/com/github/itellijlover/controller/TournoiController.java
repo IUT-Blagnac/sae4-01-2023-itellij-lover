@@ -306,16 +306,13 @@ public class TournoiController {
 		return resultat;
 	}
 
+	/**
+	 * met à jour le match de la liste à l'index "index"
+	 * @param index index du match dans la liste
+	 */
 	public void updateMatch(int index) {
-		String termine = (getMatch(index).getScore1() > 0 || getMatch(index).getScore2() > 0) ? "oui":"non";
-		System.out.println(termine);
-		String req = "UPDATE match SET equipe1='" + getMatch(index).getEq1() + "', equipe2='" + getMatch(index).getEq2() + "',  score1='" + getMatch(index).getScore1() + "',  score2='" +getMatch(index).getScore2() + "', termine='" + termine + "' WHERE id_match = " + getMatch(index).getId() + ";";
-		try {
-			statement.executeUpdate(req);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		getMatchs();
+		Match match = getMatch(index);
+		matchDAO.update(match);
 	}
 
 	/**
