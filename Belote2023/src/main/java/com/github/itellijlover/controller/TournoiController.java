@@ -166,7 +166,7 @@ public class TournoiController {
 		while (already_used) {
 			already_used = false;
 			for (Equipe equipe : list_equipe) {
-				if (equipe.getId() == num_new_equipe) {
+				if (equipe.getNum() == num_new_equipe) {
 					already_used = true;
 					num_new_equipe++;
 					break;
