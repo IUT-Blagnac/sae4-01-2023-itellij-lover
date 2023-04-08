@@ -6,7 +6,8 @@ public class FactoryDB {
 
     protected final Statement statement;
 
-    public FactoryDB() {
+    protected FactoryDB() {
         statement = DatabaseConnection.getInstance().getStatement();
     }
+
 }
