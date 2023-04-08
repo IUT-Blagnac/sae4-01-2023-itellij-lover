@@ -238,47 +238,19 @@ public class TournoiController {
 	 */
 	public void genererMatchs() {
 		System.out.println("Nombre d'équipes : " + getNbEquipes());
-		List<List<Match>> matchs = getMatchsToDo(getNbEquipes(), 1);
+		List<List<Match>> matchs = genererMatchsToDo(getNbEquipes(), 1);
 		matchDAO.addAll(matchs, id);
 		statut_en_int = 2;
 		statut_en_string = "Matchs en cours";
 	}
 
 	/**
-	 * Récupère les matchs liés au tournoi
-	 */
-	public void getMatchs() {
-		list_match = matchDAO.getAllFromTournoi(id);
-	}
-
-	public void updateMatch(int index) {
-		String termine = (getMatch(index).getScore1() > 0 || getMatch(index).getScore2() > 0) ? "oui":"non";
-		System.out.println(termine);
-		String req = "UPDATE match SET equipe1='" + getMatch(index).getEq1() + "', equipe2='" + getMatch(index).getEq2() + "',  score1='" + getMatch(index).getScore1() + "',  score2='" +getMatch(index).getScore2() + "', termine='" + termine + "' WHERE id_match = " + getMatch(index).getId() + ";";
-		try {
-			statement.executeUpdate(req);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		getMatchs();
-	}
-
-	/**
-	 * @param index index du match cherché
-	 * @return le match correspondant à l'index du match dans la liste de match
-	 */
-	public Match getMatch(int index) {
-		if (list_match == null) getMatchs();
-		return list_match.get(index);
-	}
-
-	/**
-	 * Génère les match en focntion du nombre d'équipes et de tours
+	 * Génère les match en fonction du nombre d'équipe et de tours
 	 * @param nbEquipes nombre d'équipe dans le tournoi
 	 * @param nbTours nombre de tour
 	 * @return liste de liste de match
 	 */
-	public static List<List<Match>> getMatchsToDo(int nbEquipes, int nbTours) {
+	public static List<List<Match>> genererMatchsToDo(int nbEquipes, int nbTours) {
 		if (nbTours  >= nbEquipes) {
 			System.out.println("Erreur tours < equipes");
 			return null;
@@ -334,6 +306,34 @@ public class TournoiController {
 		return resultat;
 	}
 
+	public void updateMatch(int index) {
+		String termine = (getMatch(index).getScore1() > 0 || getMatch(index).getScore2() > 0) ? "oui":"non";
+		System.out.println(termine);
+		String req = "UPDATE match SET equipe1='" + getMatch(index).getEq1() + "', equipe2='" + getMatch(index).getEq2() + "',  score1='" + getMatch(index).getScore1() + "',  score2='" +getMatch(index).getScore2() + "', termine='" + termine + "' WHERE id_match = " + getMatch(index).getId() + ";";
+		try {
+			statement.executeUpdate(req);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		getMatchs();
+	}
+
+	/**
+	 * @param index index du match cherché
+	 * @return le match correspondant à l'index du match dans la liste de match
+	 */
+	public Match getMatch(int index) {
+		if (list_match == null) getMatchs();
+		return list_match.get(index);
+	}
+
+	/**
+	 * Récupère les matchs liés au tournoi
+	 */
+	public void getMatchs() {
+		list_match = matchDAO.getAllFromTournoi(id);
+	}
+
 	/**
 	 * @return le nombre de matchs de la liste de matchs
 	 */
@@ -362,7 +362,7 @@ public class TournoiController {
 		System.out.println("Nombre de tours avant:" + nbtoursav);
 
 		if (nbtoursav == 0) {
-			List<List<Match>> matchs = getMatchsToDo(getNbEquipes(), nbtoursav + 1);
+			List<List<Match>> matchs = genererMatchsToDo(getNbEquipes(), nbtoursav + 1);
 
 			List<Match> ms = matchs.get(matchs.size()-1);
 
