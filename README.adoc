@@ -239,3 +239,7 @@ Suppression de beaucoup de `this.` inutiles.
 === Tests unitaires
 
 Ajout des tests unitaires pour les modèles de données, donc pour Match ainsi que pour Equipe.
+
+== Patron MVC
+
+Séparation dans plusieurs package pour les modèles de données, donc Match, et Equipe et pour la vue, donc Window. Séparation aussi des parties SQL présente dans Window (Anciennement Fenetre)
