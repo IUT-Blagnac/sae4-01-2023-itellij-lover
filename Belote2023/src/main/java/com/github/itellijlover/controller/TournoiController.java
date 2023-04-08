@@ -219,7 +219,7 @@ public class TournoiController {
 	 * Stock toutes les équipes correspondant au tournoi dans la liste d'équipes
 	 */
 	public void getEquipes() {
-		list_equipe = equipeDAO.getFromTournoi(id);
+		list_equipe = equipeDAO.getAllFromTournoi(id);
 	}
 
 	/**

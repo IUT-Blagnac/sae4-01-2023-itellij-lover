@@ -144,7 +144,7 @@ public class EquipeDAO extends FactoryDB implements DAO<Equipe> {
 	 * @param id_tournoi L'identifiant du tournoi pour lequel récupérer les équipes.
 	 * @return Une liste des équipes du tournoi donné, triées par numéro d'équipe croissant.
 	 */
-	public List<Equipe> getFromTournoi(int id_tournoi) {
+	public List<Equipe> getAllFromTournoi(int id_tournoi) {
 		List<Equipe> list_equipe = new Vector<>();
 
 		String query = "SELECT * FROM equipe WHERE id_tournoi = "

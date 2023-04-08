@@ -1,6 +1,7 @@
 package com.github.itellijlover.dao;
 
 import com.github.itellijlover.db.FactoryDB;
+import com.github.itellijlover.model.Equipe;
 import com.github.itellijlover.model.Match;
 
 import java.sql.SQLException;
@@ -76,6 +77,10 @@ public class MatchDAO extends FactoryDB implements DAO<Match> {
 	}
 
 	public List<Match> getAll() {
+		return null;
+	}
+
+	public List<Equipe> getAllFromTournoi(int id_tournoi) {
 		return null;
 	}
 
