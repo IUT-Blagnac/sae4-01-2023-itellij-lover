@@ -277,3 +277,15 @@ Mise en place de pull request et de branch autres que `master` afin de ne pas em
 ==== Commentaires
 
 Nous avons commentés les classes et méthodes importante et avons généré la Javadoc, disponible https://iut-blagnac.github.io/sae4-01-2023-itellij-lover/[ici].
+
+==== Nouveaux diagrammes
+
+Diagramme de classe : 
+
+
+image::doc/Diagramme classe v2.png[]
+
+
+Diagramme de séquence : 
+
+Le diagramme de séquence est identique à celui de base.
