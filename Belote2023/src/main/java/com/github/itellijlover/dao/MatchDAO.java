@@ -1,14 +1,12 @@
 package com.github.itellijlover.dao;
 
 import com.github.itellijlover.db.FactoryDB;
-import com.github.itellijlover.model.Equipe;
 import com.github.itellijlover.model.Match;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * Classe qui communique avec la BD pour mettre à jour les modifications des Matchs

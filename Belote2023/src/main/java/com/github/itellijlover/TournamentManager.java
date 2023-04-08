@@ -228,6 +228,7 @@ public class TournamentManager {
 	 */
 	public void genererMatchs() {
 		List<List<Match>> matchs = genererMatchsToDo(getNbEquipes(), 1);
+		assert matchs != null;
 		matchDAO.addAll(matchs, id);
 		statut_en_int = 2;
 		statut_en_string = "Matchs en cours";
@@ -351,6 +352,7 @@ public class TournamentManager {
 		if (nbtoursav == 0) {
 			List<List<Match>> matchs = genererMatchsToDo(getNbEquipes(), nbtoursav + 1);
 
+			assert matchs != null;
 			List<Match> ms = matchs.get(matchs.size()-1);
 
 			StringBuilder query = new StringBuilder("INSERT INTO match (id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n");
