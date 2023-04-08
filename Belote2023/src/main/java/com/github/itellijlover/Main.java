@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 import javax.swing.JFrame;
 
-public class Belote {
+public class Main {
 
 	public static void main(String[] args) {
 		try {
