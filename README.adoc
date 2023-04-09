@@ -254,7 +254,7 @@ Séparation dans plusieurs package pour les modèles de données, donc Match et 
 
 === Patron DAO
 
-Nous avons mis en place la patron Data Access Object dans un partie du projet, à savoir pour les classe modèles Equipe et Match. Ces nouvelles classes implémentent l'interface DAO qui définit des méthgode de base tel que `add()`, `update()` ou encore `get()`.
+Nous avons mis en place la patron Data Access Object dans un partie du projet, à savoir pour les classe modèles Equipe et Match. Ces nouvelles classes implémentent l'interface DAO qui définit des méthode de base tel que `add()`, `update()` ou encore `get()`.
 
 === Mise à jour de la bibliothèque HSQLDB
 
